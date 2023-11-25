@@ -45,7 +45,7 @@ const Sidebar: React.FC = () => {
                             <HandShakeSVG />
                             <span>Partnership</span>
                         </NavLink>
-                        <NavLink to="/settings" className="navbar-item flex gap-[1rem]">
+                        <NavLink to="#" className="navbar-item flex gap-[1rem]">
                             <CogSVG />
                             <span>Settings</span>
                         </NavLink>
