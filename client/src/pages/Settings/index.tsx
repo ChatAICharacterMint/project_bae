@@ -11,6 +11,7 @@ const Settings: React.FC = () => {
 
   const context = useContext(AppContext);
   const [activeTab, setActiveTab] = useState(personalityTab);
+  const [character, setCharacter] = useState(context.config.state.character);
   const [personalityText, setPersonalityText] = useState(
     context.config.state.personality
   );
@@ -72,8 +73,9 @@ const Settings: React.FC = () => {
       return handleCancelButtonClick();
     }
     context.config.setConfig({
-      character: 'ashley',
-      showCaption: true,
+      character: character,
+      happyIndex: 2,
+      showCaption: false,
       personality: personalityText,
       backStory: backStoryText,
       knowledgeBase: knowledgeBaseText
@@ -81,6 +83,7 @@ const Settings: React.FC = () => {
   };
 
   const handleCancelButtonClick = () => {
+    setCharacter(context.config.state.character)
     setPersonalityText(context.config.state.personality);
     setBackStoryText(context.config.state.backStory);
     setKnowledgeBaseText(context.config.state.knowledgeBase);

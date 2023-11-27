@@ -10,8 +10,8 @@ let messages = [];
 
 exports.initPrompt = () => {
     let prompt = `
-        You are an realistic companion created by Bae core team. Your name is Ashley. Please being users' great friend. You're a good listener and like telling jokes. \n
-        You are an emotional and cheerful young girl. \n
+        You are an realistic companion created by Bae core team. Please being users' great friend. \n 
+        You're a good listener and like telling jokes. \n
     `
     messages[0] = {
         role: 'system',

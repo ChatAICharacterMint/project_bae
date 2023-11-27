@@ -1,12 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import config from 'config';
+import { AppContext } from 'contexts';
 
 const useDidStream = () => {
   const DID_API_KEY = config.DID_API_KEY;
   const DID_API_URL = "https://api.d-id.com";
   const maxRetryCount = 3;
   const maxDelaySec = 4;
-  const idleVideo = 'or_idle.mp4';
+
+  const context = useContext(AppContext);
 
   // @ts-ignore
   const RTCPeerConnection = ( window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection ).bind(window);
@@ -22,15 +24,7 @@ const useDidStream = () => {
   
   const talkVideo = useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
-    connect();
-
-    return () => {
-      destory();
-    }
-  }, [])
-
-  const connect = async () => {
+  const connectDid = async () => {
     // check connect status
     if (peerConnection && peerConnection.connectionState === 'connected') {
       return;
@@ -46,7 +40,7 @@ const useDidStream = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        source_url: 'https://d-id-public-bucket.s3.amazonaws.com/or-roman.jpg',
+        source_url: context.config.state.character.image
       }),
     });
   
@@ -76,7 +70,7 @@ const useDidStream = () => {
     });
   };
 
-  const destory = async () => {
+  const destoryDid = async () => {
     await fetch(`${DID_API_URL}/talks/streams/${streamId}`, {
       method: 'DELETE',
       headers: {
@@ -102,7 +96,7 @@ const useDidStream = () => {
         body: JSON.stringify({
           script: {
             type: 'text',
-            ssml: 'true',
+            ssml: 'false',
             provider: {
               type: 'microsoft',
               voice_id: 'en-US-JennyNeural'
@@ -200,9 +194,44 @@ const useDidStream = () => {
     pc.removeEventListener('track', onTrack, true);
     clearInterval(statsIntervalId);
     console.log('stopped peer connection');
-    if (pc === peerConnection) {
-      peerConnection = null;
-    }
+    // if (pc === peerConnection) {
+    //   peerConnection = null;
+    // }
+  }
+
+  async function getIdleVideo(image: string) {
+    fetchWithRetries(`${DID_API_URL}/animations`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${DID_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        source_url: image,
+        driver_url: 'bank://lively/',
+        config: {
+          stitch: true,
+        },
+      }),
+    }).then((res: any) => {
+      console.log('created: ', res)
+      // if(res.id)
+      //   fetchWithRetries(`${DID_API_URL}/animations/${res.id}`, {
+      //     method: 'GET',
+      //     headers: {
+      //       Authorization: `Basic ${DID_API_KEY}`,
+      //       'Content-Type': 'application/json',
+      //     },
+      //   }).then( (res: any) => {
+      //     console.log('result: ', res)
+      //   })
+      //   .catch(e => {
+      //     console.log(e)
+      //   })
+    })
+    .catch( e => {
+      console.log(e)
+    })
   }
 
   function setVideoElement(stream: any) {
@@ -224,7 +253,7 @@ const useDidStream = () => {
   function playIdleVideo() {
     if(!talkVideo.current) return;
     talkVideo.current.srcObject = null;
-    talkVideo.current.src = idleVideo;
+    talkVideo.current.src = context.config.state.character.idleVideo;
     talkVideo.current.loop = true;
 
     if (talkVideo.current.paused) {
@@ -264,7 +293,9 @@ const useDidStream = () => {
   
   return {
     talkVideo,
-    talkDid
+    talkDid,
+    connectDid,
+    destoryDid
   }
 }
 

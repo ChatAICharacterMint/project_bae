@@ -29,7 +29,9 @@ const Character: React.FC = () => {
     const { convert, setOnProcessCallback } = useTextToSpeech();
     const { 
         talkVideo,
-        talkDid
+        talkDid,
+        connectDid,
+        destoryDid
     } = useDidStream();
 
     useEffect(() => {
@@ -38,24 +40,17 @@ const Character: React.FC = () => {
             console.log("Browser doesn't support speech recognition.")
         }
         console.log("#################");
-        
+        connectDid();
+
+        return () => {
+            destoryDid();
+        }
     }, []);
 
     useEffect(() => {
         socket.on('@response', (res: { message: any; }) => {
-            const ssml = `
-            <speak>
-                <prosody volume="+10dB">
-                    ${res.message}
-                </prosody>
-            </speak>
-            `
-            talkDid(ssml);
-            // convert(ssml).then(() => {
-            //     // setCharacterState(CharacterState.Idle);
-            //     setCaption(res.message)
-            //     console.log('completed!')
-            // });
+            if(res.message && res.message !== '')
+                talkDid(res.message);
         });
     }, [socket])
 
@@ -87,8 +82,8 @@ const Character: React.FC = () => {
             </div>
         </div>
         <div className="w-full flex-grow flex flex-col gap-[2rem] pl-[2rem] sm:pl-0 pr-[2rem] pb-[2rem]">
-            <div className="relative w-full flex-grow flex justify-center items-center rounded-[20px] border-[1px] border-[#0004] bg-[#000b]">
-                <video ref={talkVideo} autoPlay muted playsInline className="h-full rounded-[20px]"></video>
+            <div className="relative w-full flex-grow flex justify-center items-start overflow-hidden rounded-[20px] border-[1px] border-[#0004] bg-[#000b]">
+                <video ref={talkVideo} autoPlay muted playsInline className="absolute top-0 left-0 h-full w-full object-cover object-top"></video>
                 {
                     context.config.state.showCaption && (caption !== '' || transcript !== '') && (
                         <div className="absolute bottom-2 text-[#fff] bg-[#0004] rounded-[10px] px-[16px] py-[10px] mx-auto"

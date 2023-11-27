@@ -8,7 +8,7 @@ interface IContext {
 const config = new ConfigManager();
 
 export const AppContext = createContext<IContext>({
-  config: config,
+  config: config
 });
 
 interface Props {
