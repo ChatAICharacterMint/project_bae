@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef, useContext, Suspense } from "react";
 import { NavLink } from "react-router-dom";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import useTextToSpeech from "apis/textToSpeech";
-import useDidStream from "apis/streaming_did";
+import useTextToSpeech from "utils/textToSpeech";
+import useDidStream from "utils/streaming_did";
+import Socket from 'utils/socket';
 import { AppContext } from 'contexts';
 
 import HappyIndex from 'components/HappyIndex';
@@ -12,6 +13,8 @@ const happyIndex = 2;
 const avatarImgLink = '/avatars/bae.png';
 
 const Character: React.FC = () => {
+
+    const socket = Socket.instance;
     const context = useContext(AppContext);
     const [ caption, setCaption ] = useState('');
     const messageRef = useRef<HTMLInputElement>(null);
@@ -38,10 +41,31 @@ const Character: React.FC = () => {
         
     }, []);
 
+    useEffect(() => {
+        socket.on('@response', (res: { message: any; }) => {
+            const ssml = `
+            <speak>
+                <prosody volume="+10dB">
+                    ${res.message}
+                </prosody>
+            </speak>
+            `
+            talkDid(ssml);
+            // convert(ssml).then(() => {
+            //     // setCharacterState(CharacterState.Idle);
+            //     setCaption(res.message)
+            //     console.log('completed!')
+            // });
+        });
+    }, [socket])
+
     const sendTextMessage = (text: string | undefined) => {
-        if(!text) return;
-        
-        talkDid(text);
+        if(text && socket) {
+            console.log(text)
+            socket.emit('chat', {
+                message: text
+            })
+        }
     };
 
     return (

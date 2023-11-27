@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import config from 'config';
 
 const useDidStream = () => {
-  const DID_API_KEY = config.REACT_APP_DID_API_KEY;
+  const DID_API_KEY = config.DID_API_KEY;
   const DID_API_URL = "https://api.d-id.com";
   const maxRetryCount = 3;
   const maxDelaySec = 4;

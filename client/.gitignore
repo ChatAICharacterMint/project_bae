@@ -6,7 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-env
+build/
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
@@ -73,12 +74,14 @@ typings/
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
+# python cache
+__pycache__/
+
 # Next.js build output
 .next
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/
@@ -100,5 +103,3 @@ dist
 
 # TernJS port file
 .tern-port
-
-assets/generated/
