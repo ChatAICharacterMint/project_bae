@@ -1,8 +1,33 @@
 import React, {useContext, useState} from 'react';
 import { AppContext } from 'contexts';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
- 
+
+const characters = [
+  {
+      name: 'ashley',
+      image: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/mmo1sk9sfreddmpwufuu.png',
+      voice: 'en-US-JennyNeural',
+      style: 'Cheerful',
+  },
+  {
+      name: 'captain',
+      image: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/d0cndjfeggffrvrdsxrb.png',
+      voice: 'zh-CN-YunxiNeural',
+      style: 'Cheerful',
+  },
+  {
+    name: 'girl',
+    image: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/duliq6ycffxapu1a7uon.png',
+    voice: 'en-US-JennyNeural',
+    style: 'Cheerful',
+  },
+  {
+      name: 'boy',
+      image: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/kjs9lmgosy5baft5gghf.png',
+      voice: 'zh-CN-YunxiNeural',
+      style: 'Cheerful',
+  },
+]
+
 const Settings: React.FC = () => {
   const personalityTab = 'personality';
   const backStoryTab = 'backStory';
@@ -10,7 +35,6 @@ const Settings: React.FC = () => {
   const wordsLimitation = 3000;
 
   const context = useContext(AppContext);
-  const [activeTab, setActiveTab] = useState(personalityTab);
   const [character, setCharacter] = useState(context.config.state.character);
   const [personalityText, setPersonalityText] = useState(
     context.config.state.personality
@@ -75,7 +99,7 @@ const Settings: React.FC = () => {
     context.config.setConfig({
       character: character,
       happyIndex: 2,
-      showCaption: false,
+      showCaption: true,
       personality: personalityText,
       backStory: backStoryText,
       knowledgeBase: knowledgeBaseText
@@ -110,94 +134,62 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <div className='w-full h-full flex justify-center items-center p-[2rem]'>
-      <Tabs className={'w-full max-w-[650px]'}>
-        <TabList className={'flex justify-center gap-[1rem]'}>
-            <Tab>Personality</Tab>
-            <Tab>Backstory</Tab>
-            <Tab>Knowledge Base</Tab>
-        </TabList>
-        <div className='mt-[1rem]'>
-          <TabPanel>
-            <div className='w-full max-w-[650px] h-[50vh] flex flex-col justify-center items-center gap-[1rem]'>
-              <textarea className='w-full h-full flex-grow p-[1rem] outline-none border-none bg-[#000] text-[#fff] rounded-[10px]' placeholder='Personality' 
-                onChange={(event) =>
-                  handleTextFieldChange(event, fieldsMap.get('personality'))
-                }
-              />
-
-              <div className='flex gap-[1rem] justify-center'>
-                <button className='bg-lime-700 text-[#fff] px-[1rem] py-[0.5rem] rounded-[10px]'
-                  onClick={() => {
-                    handleSaveButtonClick();
-                  }}
-                >
-                  Save
-                </button>
-                <button className='bg-gray-700 text-[#fff] px-[1rem] py-[0.5rem] rounded-[10px]'
-                  onClick={() => {
-                    handleCancelButtonClick();
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </TabPanel>
-          <TabPanel>
-              <div className='w-full max-w-[650px] h-[50vh] flex flex-col justify-center items-center gap-[1rem]'>
-              <textarea className='w-full h-full flex-grow p-[1rem] outline-none border-none bg-[#000] text-[#fff] rounded-[10px]' placeholder='Backstory' 
-                onChange={(event) =>
-                  handleTextFieldChange(event, fieldsMap.get('backStory'))
-                }
-              />
-
-              <div className='flex gap-[1rem] justify-center'>
-                <button className='bg-lime-700 text-[#fff] px-[1rem] py-[0.5rem] rounded-[10px]'
-                  onClick={() => {
-                    handleSaveButtonClick();
-                  }}
-                >
-                  Save
-                </button>
-                <button className='bg-gray-700 text-[#fff] px-[1rem] py-[0.5rem] rounded-[10px]'
-                  onClick={() => {
-                    handleCancelButtonClick();
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </TabPanel>
-          <TabPanel>
-            <div className='w-full max-w-[650px] h-[50vh] flex flex-col justify-center items-center gap-[1rem]'>
-              <textarea className='w-full h-full flex-grow p-[1rem] outline-none border-none bg-[#000] text-[#fff] rounded-[10px]' placeholder='Knowledge Base' 
-                onChange={(event) =>
-                  handleTextFieldChange(event, fieldsMap.get('knowledgeBase'))
-                }
-              />
-
-              <div className='flex gap-[1rem] justify-center'>
-                <button className='bg-lime-700 text-[#fff] px-[1rem] py-[0.5rem] rounded-[10px]'
-                  onClick={() => {
-                    handleSaveButtonClick();
-                  }}
-                >
-                  Save
-                </button>
-                <button className='bg-gray-700 text-[#fff] px-[1rem] py-[0.5rem] rounded-[10px]'
-                  onClick={() => {
-                    handleCancelButtonClick();
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </TabPanel>
-        </div>
-      </Tabs>
+    <div className='w-full h-full flex flex-col items-center p-[2rem] gap-[1rem] overflow-y-auto'>
+      <div className='w-full flex gap-[1rem] justify-end'>
+        <button className='bg-lime-700 text-[#fff] px-[1rem] py-[0.5rem] rounded-[10px]'
+          onClick={() => {
+            handleSaveButtonClick();
+          }}
+        >
+          Save
+        </button>
+        <button className='bg-gray-700 text-[#fff] px-[1rem] py-[0.5rem] rounded-[10px]'
+          onClick={() => {
+            handleCancelButtonClick();
+          }}
+        >
+          Cancel
+        </button>
+      </div>
+      <div className='w-full float-left'>
+        <span className='mr-[1rem]'>Character: </span>
+        <select
+          className='outline-none border-none rounded-[8px] px-[10px] py-[5px] capitalize'
+          id='name'
+          name='name'
+          value={character.name}
+          onChange={(evt) => {
+            const c = characters.filter( item => item.name === evt.target.value)[0]
+            if(c) setCharacter(c)
+          }}
+        >
+          {
+            characters.map( (item, idx) => 
+              <option key={idx} value={item.name}>{item.name}</option>
+            )
+          }
+        </select>
+      </div>
+      <div className='w-full flex flex-col gap-[10px] max-w-[650px]'>
+        <span>Peronsonalty</span>
+        <textarea className='w-full h-[160px] flex-grow p-[1rem] resize-none outline-none border-none bg-[#000] text-[#fff] rounded-[10px]' placeholder='Personality' 
+          onChange={(event) =>
+            handleTextFieldChange(event, fieldsMap.get('personality'))
+          }
+        />
+        <span>BackStory</span>
+        <textarea className='w-full h-[160px] flex-grow p-[1rem] resize-none outline-none border-none bg-[#000] text-[#fff] rounded-[10px]' placeholder='Backstory' 
+          onChange={(event) =>
+            handleTextFieldChange(event, fieldsMap.get('backStory'))
+          }
+        />
+        <span> KnowldgeBase</span>
+        <textarea className='w-full h-[160px] flex-grow p-[1rem] resize-none outline-none border-none bg-[#000] text-[#fff] rounded-[10px]' placeholder='Knowledge Base' 
+          onChange={(event) =>
+            handleTextFieldChange(event, fieldsMap.get('knowledgeBase'))
+          }
+        />
+      </div>
     </div>
   )
 };

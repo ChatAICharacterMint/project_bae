@@ -21,10 +21,16 @@ const useDidStream = () => {
   let statsIntervalId: any;
   let videoIsPlaying: any;
   let lastBytesReceived: any;
-  
+
+  let idleVideo: any;
+
   const talkVideo = useRef<HTMLVideoElement>(null);
+  const onTalkEnd = useRef(() => {});
+  const onTalkStart = useRef(() => {});
 
   const connectDid = async () => {
+    await getIdleVideo();
+
     // check connect status
     if (peerConnection && peerConnection.connectionState === 'connected') {
       return;
@@ -99,13 +105,17 @@ const useDidStream = () => {
             ssml: 'false',
             provider: {
               type: 'microsoft',
-              voice_id: 'en-US-JennyNeural'
+              voice_id: context.config.state.character.voice,
+              voice_config: {
+                style: context.config.state.character.style
+              }
             },
             input: text
           },
           driver_url: 'bank://lively/',
           config: {
             stitch: true,
+            fluent: true
           },
           session_id: sessionId,
         }),
@@ -142,8 +152,10 @@ const useDidStream = () => {
   function onVideoStatusChange(videoIsPlaying: any, stream: any) {
     if (videoIsPlaying) {
       const remoteStream = stream;
+      onTalkStart.current();
       setVideoElement(remoteStream);
     } else {
+      onTalkEnd.current();
       playIdleVideo();
     }
   }
@@ -199,39 +211,53 @@ const useDidStream = () => {
     // }
   }
 
-  async function getIdleVideo(image: string) {
-    fetchWithRetries(`${DID_API_URL}/animations`, {
+  async function getIdleVideo() {
+    const res = await fetchWithRetries(`${DID_API_URL}/talks`, {
       method: 'POST',
       headers: {
         Authorization: `Basic ${DID_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        source_url: image,
+        source_url: context.config.state.character.image,
         driver_url: 'bank://lively/',
+        script: {
+          type: 'text',
+          ssml: true,
+          input: "<break time=\"4000ms\"/><break time=\"4000ms\"/><break time=\"4000ms\"/>",
+          provider: {
+            type: "microsoft",
+            voice_id: "en-US-JennyNeural"
+          }
+        },
         config: {
           stitch: true,
+          fluent: true
         },
       }),
-    }).then((res: any) => {
-      console.log('created: ', res)
-      // if(res.id)
-      //   fetchWithRetries(`${DID_API_URL}/animations/${res.id}`, {
-      //     method: 'GET',
-      //     headers: {
-      //       Authorization: `Basic ${DID_API_KEY}`,
-      //       'Content-Type': 'application/json',
-      //     },
-      //   }).then( (res: any) => {
-      //     console.log('result: ', res)
-      //   })
-      //   .catch(e => {
-      //     console.log(e)
-      //   })
+    });
+    const {id, status, created_by, created_at, object} = await res.json();
+    if(id) {
+      await getResultURLWithRetries(id);
+    }
+  }
+
+  async function getResultURLWithRetries(id: string) {
+    const res = await fetch(`${DID_API_URL}/talks/${id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Basic ${DID_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
     })
-    .catch( e => {
-      console.log(e)
-    })
+    const result = await res.json();
+    if(result.status !== 'done') {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      await getResultURLWithRetries(id);
+    } else {
+      idleVideo = result.result_url;
+      return;
+    }
   }
 
   function setVideoElement(stream: any) {
@@ -240,6 +266,7 @@ const useDidStream = () => {
     console.log('playing stream')
     talkVideo.current.srcObject = stream;
     talkVideo.current.loop = false;
+    talkVideo.current.muted = false;
   
     // safari hotfix
     if (talkVideo.current.paused) {
@@ -253,8 +280,9 @@ const useDidStream = () => {
   function playIdleVideo() {
     if(!talkVideo.current) return;
     talkVideo.current.srcObject = null;
-    talkVideo.current.src = context.config.state.character.idleVideo;
+    talkVideo.current.src = idleVideo;
     talkVideo.current.loop = true;
+    talkVideo.current.muted = true;
 
     if (talkVideo.current.paused) {
       talkVideo.current
@@ -290,12 +318,22 @@ const useDidStream = () => {
       }
     }
   }
+
+  const setTalkEndCallback = (callback: any) => {
+    onTalkEnd.current = callback;
+  }
+
+  const setTalkStartCallback = (callback: any) => {
+    onTalkStart.current = callback;
+  }
   
   return {
     talkVideo,
     talkDid,
     connectDid,
-    destoryDid
+    destoryDid,
+    setTalkEndCallback,
+    setTalkStartCallback
   }
 }
 

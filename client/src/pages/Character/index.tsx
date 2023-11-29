@@ -16,7 +16,7 @@ const Character: React.FC = () => {
 
     const socket = Socket.instance;
     const context = useContext(AppContext);
-    const [ caption, setCaption ] = useState('');
+    const [ caption, setCaption ] = useState(null);
     const messageRef = useRef<HTMLInputElement>(null);
 
     const {
@@ -26,12 +26,14 @@ const Character: React.FC = () => {
         browserSupportsSpeechRecognition,
     } = useSpeechRecognition();
 
-    const { convert, setOnProcessCallback } = useTextToSpeech();
+    // const { convert, setOnProcessCallback } = useTextToSpeech();
     const { 
         talkVideo,
         talkDid,
         connectDid,
-        destoryDid
+        destoryDid,
+        setTalkEndCallback,
+        setTalkStartCallback
     } = useDidStream();
 
     useEffect(() => {
@@ -40,16 +42,26 @@ const Character: React.FC = () => {
             console.log("Browser doesn't support speech recognition.")
         }
         console.log("#################");
-        connectDid();
+        console.log(context.config.state.character)
 
+        connectDid();
+        setTalkEndCallback(() => {
+            setCaption(null);
+        })
         return () => {
             destoryDid();
         }
     }, []);
 
     useEffect(() => {
+        socket.emit('init_bot', { message: context.config.state.character })
+
         socket.on('@response', (res: { message: any; }) => {
+            console.log(res.message)
             if(res.message && res.message !== '')
+                setTalkStartCallback(() => {
+                    setCaption(res.message)
+                })
                 talkDid(res.message);
         });
     }, [socket])
@@ -153,4 +165,3 @@ const Character: React.FC = () => {
 };
   
 export default Character;
-  
