@@ -97,7 +97,7 @@ const Character: React.FC = () => {
             <div className="relative w-full flex-grow flex justify-center items-start overflow-hidden rounded-[20px] border-[1px] border-[#0004] bg-[#000b]">
                 <video ref={talkVideo} autoPlay muted playsInline className="absolute top-0 left-0 h-full w-full object-cover object-top"></video>
                 {
-                    context.config.state.showCaption && (caption !== '' || transcript !== '') && (
+                    context.config.state.showCaption && (caption != null || transcript !== '') && (
                         <div className="absolute bottom-2 text-[#fff] bg-[#0004] rounded-[10px] px-[16px] py-[10px] mx-auto"
                             style={{
                                 maxWidth: 'calc(100% - 4rem)'
