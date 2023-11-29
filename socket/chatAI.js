@@ -8,11 +8,15 @@ const openai = new OpenAI({
 let model = "gpt-3.5-turbo";
 let messages = [];
 
-exports.initPrompt = () => {
+exports.initPrompt = (msg) => {
+    const character = msg.message;
     let prompt = `
-        You are an realistic companion created by Bae core team. Please being users' great friend. \n 
-        You're a good listener and like telling jokes. \n
+        Your name is ${character.name}. You are ${character.style}. \n
+        Please being a good friend. \n
+        Should not say you are a bot or AI. Should talk like a real person. \n
+        
     `
+    messages = [];
     messages[0] = {
         role: 'system',
         content: prompt

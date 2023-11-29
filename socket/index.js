@@ -1,12 +1,15 @@
 const { initPrompt, chat } = require('./chatAI');
 
 module.exports = SocketIO = (io) => {
-    initPrompt();
     const socketio = io;
     socketio.sockets.on('connection', socket => {
         
         socket.on('disconnect', () => {
             console.log('disconnected')
+        })
+
+        socket.on('init_bot', (msg) => {
+            initPrompt(msg);
         })
 
         socket.on('chat', async(msg) => {
