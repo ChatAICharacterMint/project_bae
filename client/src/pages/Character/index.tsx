@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext, Suspense } from "react";
 import { NavLink } from "react-router-dom";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import useTextToSpeech from "utils/textToSpeech";
+// import useTextToSpeech from "utils/textToSpeech";
 import useDidStream from "utils/streaming_did";
 import Socket from 'utils/socket';
 import { AppContext } from 'contexts';
@@ -42,7 +42,7 @@ const Character: React.FC = () => {
             console.log("Browser doesn't support speech recognition.")
         }
         console.log("#################");
-        console.log(context.config.state.character)
+        console.log(context.config.state.selectedCharacter)
 
         connectDid();
         setTalkEndCallback(() => {
@@ -54,7 +54,7 @@ const Character: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        socket.emit('init_bot', { message: context.config.state.character })
+        socket.emit('init_bot', { message: context.config.state.selectedCharacter })
 
         socket.on('@response', (res: { message: any; }) => {
             console.log(res.message)

@@ -2,6 +2,16 @@ import { useState, useRef, useContext } from 'react';
 import config from 'config';
 import { AppContext } from 'contexts';
 
+interface ICharacter {
+  name: string,
+  image: string,
+  idleAnimation: string,
+  voice: string,
+  style: string,
+  happyIndex: number, // 0 - 4 // how about float value?
+  background: string
+}
+
 const useDidStream = () => {
   const DID_API_KEY = config.DID_API_KEY;
   const DID_API_URL = "https://api.d-id.com";
@@ -22,14 +32,15 @@ const useDidStream = () => {
   let videoIsPlaying: any;
   let lastBytesReceived: any;
 
-  let idleVideo: any;
-
   const talkVideo = useRef<HTMLVideoElement>(null);
   const onTalkEnd = useRef(() => {});
   const onTalkStart = useRef(() => {});
 
   const connectDid = async () => {
-    await getIdleVideo();
+    if(context.config.state.selectedCharacter.idleAnimation == '') {
+      console.log("Can't load model")
+      return;
+    }
 
     // check connect status
     if (peerConnection && peerConnection.connectionState === 'connected') {
@@ -46,7 +57,7 @@ const useDidStream = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        source_url: context.config.state.character.image
+        source_url: context.config.state.selectedCharacter.image
       }),
     });
   
@@ -105,9 +116,9 @@ const useDidStream = () => {
             ssml: 'false',
             provider: {
               type: 'microsoft',
-              voice_id: context.config.state.character.voice,
+              voice_id: context.config.state.selectedCharacter.voice,
               voice_config: {
-                style: context.config.state.character.style
+                style: context.config.state.selectedCharacter.style
               }
             },
             input: text
@@ -211,38 +222,40 @@ const useDidStream = () => {
     // }
   }
 
-  async function getIdleVideo() {
-    const res = await fetchWithRetries(`${DID_API_URL}/talks`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Basic ${DID_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        source_url: context.config.state.character.image,
-        driver_url: 'bank://lively/',
-        script: {
-          type: 'text',
-          ssml: true,
-          input: "<break time=\"4000ms\"/><break time=\"4000ms\"/><break time=\"4000ms\"/>",
-          provider: {
-            type: "microsoft",
-            voice_id: "en-US-JennyNeural"
-          }
+  const getIdleVideo = async (character: ICharacter, callback: (e: any) => void) => {
+    if(character.idleAnimation == '') {
+      const res = await fetchWithRetries(`${DID_API_URL}/talks`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Basic ${DID_API_KEY}`,
+          'Content-Type': 'application/json',
         },
-        config: {
-          stitch: true,
-          fluent: true
-        },
-      }),
-    });
-    const {id, status, created_by, created_at, object} = await res.json();
-    if(id) {
-      await getResultURLWithRetries(id);
+        body: JSON.stringify({
+          source_url: character.image,
+          driver_url: 'bank://lively/',
+          script: {
+            type: 'text',
+            ssml: true,
+            input: "<break time=\"4000ms\"/><break time=\"4000ms\"/><break time=\"4000ms\"/>",
+            provider: {
+              type: "microsoft",
+              voice_id: "en-US-JennyNeural"
+            }
+          },
+          config: {
+            stitch: true,
+            fluent: true
+          },
+        }),
+      });
+      const {id, status, created_by, created_at, object} = await res.json();
+      if(id) {
+        await getResultURLWithRetries(id, callback);
+      }
     }
   }
 
-  async function getResultURLWithRetries(id: string) {
+  async function getResultURLWithRetries(id: string, callback: (e: any) => void) {
     const res = await fetch(`${DID_API_URL}/talks/${id}`, {
       method: 'GET',
       headers: {
@@ -253,10 +266,9 @@ const useDidStream = () => {
     const result = await res.json();
     if(result.status !== 'done') {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      await getResultURLWithRetries(id);
+      await getResultURLWithRetries(id, callback);
     } else {
-      idleVideo = result.result_url;
-      return;
+      callback(result.result_url)
     }
   }
 
@@ -280,7 +292,7 @@ const useDidStream = () => {
   function playIdleVideo() {
     if(!talkVideo.current) return;
     talkVideo.current.srcObject = null;
-    talkVideo.current.src = idleVideo;
+    talkVideo.current.src = context.config.state.selectedCharacter.idleAnimation;
     talkVideo.current.loop = true;
     talkVideo.current.muted = true;
 
@@ -333,7 +345,8 @@ const useDidStream = () => {
     connectDid,
     destoryDid,
     setTalkEndCallback,
-    setTalkStartCallback
+    setTalkStartCallback,
+    getIdleVideo
   }
 }
 

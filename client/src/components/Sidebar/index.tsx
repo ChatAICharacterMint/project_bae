@@ -4,7 +4,7 @@ import { PlusSquareSVG, UserSVG, QuestSVG, AwardSVG, GamePadSVG, CurrencySVG, Ha
 
 const avatarImgLink = '/avatars/bae.png';
 
-const Sidebar: React.FC = () => {
+const Sidebar = () => {
 
     return (
     <div className="hidden sm:block flex-shrink-0 sidebar w-[240px] h-screen p-[36px] bg-[#000] text-[#fff] text-[16px] leading-normal">
