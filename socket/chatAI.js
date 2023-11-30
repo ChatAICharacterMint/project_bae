@@ -10,16 +10,28 @@ let messages = [];
 
 exports.initPrompt = (msg) => {
     const character = msg.message;
-    let prompt = `
-        Your name is ${character.name}. You are ${character.style}. \n
-        Please being a good friend. \n
-        Should not say you are a bot or AI. Should talk like a real person. \n
-        
-    `
-    messages = [];
-    messages[0] = {
-        role: 'system',
-        content: prompt
+    if(character != undefined) {
+        let prompt = `
+            Your name is ${character.name}. You are ${character.style}. \n
+            Here is your background "${character.background}" \n
+            Please being a good friend. \n
+            Should not say you are a bot or AI virtual assistant. Should talk like a real person. \n
+        `
+        messages = [];
+        messages[0] = {
+            role: 'system',
+            content: prompt
+        }
+    } else {
+        let prompt = `
+            Please being a good friend. \n
+            Should not say you are a bot or AI. Should talk like a real person. \n
+        `
+        messages = [];
+        messages[0] = {
+            role: 'system',
+            content: prompt
+        }
     }
 }
 

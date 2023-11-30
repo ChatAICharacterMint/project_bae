@@ -5,6 +5,7 @@ import CharacterItem from 'components/CharacterItem';
 import { AppContext } from 'contexts';
 import useDidStream from 'utils/streaming_did';
 
+import { AddSVG } from 'assets/SVG';
 
 const Settings: React.FC = () => {
   const wordsLimitation = 3000;
@@ -89,8 +90,8 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <div className='container relative'>
-      <div className='w-full h-full flex flex-col p-[2rem] gap-[1rem] overflow-y-auto'>
+    <div className='relative'>
+      <div className='w-full h-[100vh] flex flex-col p-[2rem] gap-[1rem] overflow-y-auto'>
 
         {/* Global settings */}
         <div className='w-full'>
@@ -111,6 +112,9 @@ const Settings: React.FC = () => {
         {/* Character List */}
         <div className='container'>
           <div className='w-full flex flex-wrap gap-[1rem] mt-[1rem]'>
+              <div className='w-[120px] h-[120px] flex justify-center items-center border-[#fff] border-[1px] border-dashed rounded-[1rem] cursor-pointer'>
+                <AddSVG className='w-[80px] h-[80px] fill-[#fff]' />
+              </div>
               {
                 config.characters.map( (item, idx) => 
                   <CharacterItem key={idx} character={item} selected={ item.name == config.selectedCharacter.name } 
@@ -130,8 +134,8 @@ const Settings: React.FC = () => {
           </div>
         </div>
         {/* Character Edit */}
-        <div className='w-full max-w-[650px] flex flex-col items-center gap-[1.5rem] mt-[2rem]'>
-          <div className='w-full flex justify-evenly'>
+        <div className='w-full flex flex-col items-center gap-[1.5rem] mt-[2rem]'>
+          <div className='w-full max-w-[650px] flex justify-evenly'>
             <div className='flex items-center gap-[1rem]'>
               <span className='text-[#fff]'>Voice: </span>
               <select
@@ -179,7 +183,7 @@ const Settings: React.FC = () => {
               </select>
             </div>
           </div>
-          <div className='w-full'>
+          <div className='w-full max-w-[650px]'>
             <span className='text-[#fff]'>Background:</span>
             <textarea className='w-full h-[160px] flex-grow p-[1rem] resize-none outline-none border-none bg-[#000] text-[#fff] rounded-[10px]' placeholder="Character's background" value={config.selectedCharacter.background}
               onChange={(event) => {

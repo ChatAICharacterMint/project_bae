@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-
-const checkImg = '/check.png';
+import { checkImg } from 'assets/img';
 
 interface ICharacter {
     name: string,

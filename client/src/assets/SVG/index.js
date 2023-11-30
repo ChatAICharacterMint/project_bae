@@ -12,6 +12,7 @@ import { ReactComponent as BadgeSVG } from './badge.svg';
 import { ReactComponent as SendSVG } from './send.svg';
 import { ReactComponent as MicSVG } from './mic.svg';
 import { ReactComponent as MenuSVG } from './menu.svg';
+import { ReactComponent as AddSVG } from './add.svg';
 
 import { ReactComponent as Happy0SVG } from './happy_0.svg';
 import { ReactComponent as Happy1SVG } from './happy_1.svg';
@@ -38,5 +39,6 @@ export {
     SendSVG,
     MicSVG,
     MenuSVG,
+    AddSVG,
     HappySVG
 };
