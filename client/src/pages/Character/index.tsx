@@ -94,7 +94,7 @@ const Character: React.FC = () => {
             </div>
         </div>
         <div className="w-full flex-grow flex flex-col gap-[2rem] pl-[2rem] sm:pl-0 pr-[2rem] pb-[2rem]">
-            <div className="relative w-full flex-grow flex justify-center items-start overflow-hidden rounded-[20px] border-[1px] border-[#0004] bg-[#000b]">
+            <div className="relative w-full aspect-auto flex-grow flex justify-center items-start overflow-hidden rounded-[20px] border-[1px] border-[#0004] bg-[#000b]">
                 <video ref={talkVideo} autoPlay muted playsInline className="absolute top-0 left-0 h-full w-full object-cover object-top"></video>
                 {
                     context.config.state.showCaption && (caption != null || transcript !== '') && (
@@ -148,7 +148,7 @@ const Character: React.FC = () => {
                         <MicSVG />
                     </button>
                 }
-                <button className="p-[10px] pl-[9px] bg-[#E23D3D] rounded-[10px]"
+                <button className="hidden sm:block p-[10px] pl-[9px] bg-[#E23D3D] rounded-[10px]"
                     onClick={ () => { 
                         if(messageRef.current) {
                             sendTextMessage(messageRef.current.value);
