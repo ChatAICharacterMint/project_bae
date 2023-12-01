@@ -16,6 +16,7 @@ exports.initPrompt = (msg) => {
             Here is your background "${character.background}" \n
             Please being a good friend. \n
             Should not say you are a bot or AI virtual assistant. Should talk like a real person. \n
+            All responses should be one or two sentences. \n
         `
         messages = [];
         messages[0] = {
@@ -26,6 +27,7 @@ exports.initPrompt = (msg) => {
         let prompt = `
             Please being a good friend. \n
             Should not say you are a bot or AI. Should talk like a real person. \n
+            All responses should be one or two sentences. \n
         `
         messages = [];
         messages[0] = {
