@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useContext, Suspense } from "react";
 import { NavLink } from "react-router-dom";
+import * as PIXI from "pixi.js";
+import { Live2DModel } from "pixi-live2d-display";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 // import useTextToSpeech from "utils/textToSpeech";
 import useDidStream from "utils/streaming_did";
@@ -12,12 +14,20 @@ import { LocationSVG, BadgeSVG, SendSVG, MicSVG, MenuSVG } from 'assets/SVG';
 const happyIndex = 2;
 const avatarImgLink = '/avatars/bae.png';
 
+// window.PIXI = PIXI;
+
+// // register Ticker for Live2DModel
+// Live2DModel.registerTicker(Ticker);
+// // register InteractionManager to make Live2D models interactive
+// PIXI.Renderer.registerPlugin("interaction", InteractionManager);
+
 const Character: React.FC = () => {
 
     const socket = Socket.instance;
     const context = useContext(AppContext);
     const [ caption, setCaption ] = useState(null);
     const messageRef = useRef<HTMLInputElement>(null);
+    const [isLive2d, setIsLive2d] = useState(false);
 
     const {
         transcript,
@@ -33,25 +43,28 @@ const Character: React.FC = () => {
         connectDid,
         destoryDid,
         setTalkEndCallback,
-        setTalkStartCallback
+        setTalkStartCallback,
     } = useDidStream();
 
     useEffect(() => {
-
         if (!browserSupportsSpeechRecognition) {
             console.log("Browser doesn't support speech recognition.")
         }
         console.log("#################");
-        console.log(context.config.state.selectedCharacter)
-
-        connectDid();
-        setTalkEndCallback(() => {
-            setCaption(null);
-        })
-        return () => {
-            destoryDid();
-        }
     }, []);
+
+    useEffect(() => {
+        if(!isLive2d) {
+            connectDid();
+            setTalkEndCallback(() => {
+                setCaption(null);
+            })
+            return () => {
+                destoryDid();
+            }
+        }
+        
+    }, [isLive2d])
 
     useEffect(() => {
         socket.emit('init_bot', { message: context.config.state.selectedCharacter })
@@ -95,7 +108,12 @@ const Character: React.FC = () => {
         </div>
         <div className="w-full flex-grow flex flex-col gap-[2rem] pl-[2rem] sm:pl-0 pr-[2rem] pb-[2rem]">
             <div className="relative w-full aspect-auto flex-grow flex justify-center items-start overflow-hidden rounded-[20px] border-[1px] border-[#0004] bg-[#000b]">
-                <video ref={talkVideo} autoPlay muted playsInline className="absolute top-0 left-0 h-full w-full object-cover object-top"></video>
+                {
+                    isLive2d ?
+                    <div></div>
+                    :
+                    <video ref={talkVideo} autoPlay muted playsInline className="absolute top-0 left-0 h-full w-full object-cover object-top"></video>
+                }
                 {
                     context.config.state.showCaption && (caption != null || transcript !== '') && (
                         <div className="absolute bottom-2 text-[#fff] bg-[#0004] rounded-[10px] px-[16px] py-[10px] mx-auto"

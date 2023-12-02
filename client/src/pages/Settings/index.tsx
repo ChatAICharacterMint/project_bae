@@ -42,7 +42,7 @@ const Settings: React.FC = () => {
   const handleCreateNewCharacter = async () => {
     const new_character = {
       name: 'maya',
-      image: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/mmo1sk9sfreddmpwufuu.png',
+      image: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/kjs9lmgosy5baft5gghf.png',
       idleAnimation: '', 
       voice: 'en-US-JennyNeural',
       style: 'Cheerful',
@@ -58,7 +58,6 @@ const Settings: React.FC = () => {
   }
 
   const handleSaveButtonClick = () => {
-    // handleCreateNewCharacter();
     const characters = context.config.state.characters.map( item => {
       if(item.name == context.config.state.selectedCharacter.name)
         return {

@@ -18,6 +18,8 @@
     "buffer": "^6.0.3",
     "googleapis": "^114.0.0",
     "import-http": "^0.3.1",
+    "pixi-live2d-display": "^0.4.0",
+    "pixi.js": "^7.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.2",
