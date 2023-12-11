@@ -63,15 +63,15 @@ export class ConfigManager {
             showCaption: true,
         };
 
-        const storedValue = localStorage.getItem("configuration");
-        if(storedValue)
-            this.state = JSON.parse(storedValue)
-        else
-            this.setConfig(this.state)
+        // const storedValue = localStorage.getItem("configuration");
+        // if(storedValue)
+        //     this.state = JSON.parse(storedValue)
+        // else
+        //     this.setConfig(this.state)
     }
 
     setConfig(value: IConfig) {
         this.state = value;
-        localStorage.setItem('configuration', JSON.stringify(value));
+        // localStorage.setItem('configuration', JSON.stringify(value));
     }
 }
