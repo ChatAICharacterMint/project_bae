@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Switch from "react-switch";
-import CharacterItem from 'components/CharacterItem';
+import CharacterItem from '@/components/CharacterItem';
 
-import { AppContext } from 'contexts';
-import useDidStream from 'utils/streaming_did';
+import { AppContext } from '@/contexts';
+import useDidStream from '@/utils/streaming_did';
 
-import { AddSVG } from 'assets/SVG';
+import AddSVG from '@static/images/icon/add.svg';
 
 const Settings: React.FC = () => {
   const wordsLimitation = 3000;
@@ -39,23 +39,23 @@ const Settings: React.FC = () => {
     ])
   }, [])
 
-  const handleCreateNewCharacter = async () => {
-    const new_character = {
-      name: 'maya',
-      image: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/kjs9lmgosy5baft5gghf.png',
-      idleAnimation: '', 
-      voice: 'en-US-JennyNeural',
-      style: 'Cheerful',
-      happyIndex: 2,
-      background: "I spent my early days growing up in New York. I had a blast bonding with my fellows. During my time there, I learned about the importance of taking care of others and making everyone around me happy. ",
-    }
-    // TODO: check character properties
-    await getIdleVideo(new_character, (url: any) => {
-      console.log('in settings: ', url)
-      new_character.idleAnimation = url
-      // TODO: save new character
-    })
-  }
+  // const handleCreateNewCharacter = async () => {
+  //   const new_character = {
+  //     name: 'maya',
+  //     image: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/kjs9lmgosy5baft5gghf.png',
+  //     idleAnimation: '', 
+  //     voice: 'en-US-JennyNeural',
+  //     style: 'Cheerful',
+  //     happyIndex: 2,
+  //     background: "I spent my early days growing up in New York. I had a blast bonding with my fellows. During my time there, I learned about the importance of taking care of others and making everyone around me happy. ",
+  //   }
+  //   // TODO: check character properties
+  //   await getIdleVideo(new_character, (url: any) => {
+  //     console.log('in settings: ', url)
+  //     new_character.idleAnimation = url
+  //     // TODO: save new character
+  //   })
+  // }
 
   const handleSaveButtonClick = () => {
     const characters = context.config.state.characters.map( item => {

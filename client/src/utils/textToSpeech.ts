@@ -2,7 +2,7 @@ import { Buffer } from "buffer";
 import { useEffect, useRef } from "react";
 import * as Tone from "tone";
 
-import { GOOGLE_CLOUD_API_KEY } from 'config';
+import { GOOGLE_CLOUD_API_KEY } from '../config';
 import { sendRequestToGoogleCloudApi } from "./network";
 import {
   AvatarVoice,

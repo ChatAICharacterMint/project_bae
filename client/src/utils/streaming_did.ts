@@ -1,6 +1,6 @@
 import { useState, useRef, useContext } from 'react';
-import config from 'config';
-import { AppContext } from 'contexts';
+import config from '../config';
+import { AppContext } from '@/contexts';
 
 interface ICharacter {
   name: string,

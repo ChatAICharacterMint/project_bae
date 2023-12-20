@@ -1,3 +1,4 @@
+import React from 'react';
 
 export default function Loading() {
 
@@ -6,4 +7,4 @@ export default function Loading() {
         <span className="text-[2rem]">Loading...</span>
     </div>
     );
-};
+}

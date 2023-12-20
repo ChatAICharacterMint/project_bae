@@ -1,5 +1,5 @@
-import Sidebar from 'components/Sidebar';
-import './_style.scss';
+import React from 'react';
+import Sidebar from '@/components/Sidebar';
 
 export interface MainLayoutProps {
   children: React.ReactNode;

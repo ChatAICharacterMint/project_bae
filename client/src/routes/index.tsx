@@ -1,8 +1,8 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
-import NotFoundPage from 'pages/NotFound';
-import Character from "pages/Character";
-import Settings from "pages/Settings";
+import NotFoundPage from '@/pages/NotFound';
+import Character from "@/pages/Character";
+import Settings from "@/pages/Settings";
 
 /** Router */
 export function Router() {

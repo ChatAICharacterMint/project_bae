@@ -1,25 +1,20 @@
 import React, { useState, useEffect, useRef, useContext, Suspense } from "react";
 import { NavLink } from "react-router-dom";
-import * as PIXI from "pixi.js";
-import { Live2DModel } from "pixi-live2d-display";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 // import useTextToSpeech from "utils/textToSpeech";
-import useDidStream from "utils/streaming_did";
-import Socket from 'utils/socket';
-import { AppContext } from 'contexts';
+import useDidStream from "@/utils/streaming_did";
+import Socket from '@/utils/socket';
+import { AppContext } from '@/contexts';
 
-import HappyIndex from 'components/HappyIndex';
-import { LocationSVG, BadgeSVG, SendSVG, MicSVG, MenuSVG } from 'assets/SVG';
+import HappyIndex from '@/components/HappyIndex';
+import LocationSVG from '@static/images/icon/location.svg';
+import BadgeSVG from '@static/images/icon/badge.svg';
+import SendSVG from '@static/images/icon/send.svg';
+import MicSVG from '@static/images/icon/mic.svg';
+import MenuSVG from '@static/images/icon/menu.svg';
 
 const happyIndex = 2;
-const avatarImgLink = '/avatars/bae.png';
-
-// window.PIXI = PIXI;
-
-// // register Ticker for Live2DModel
-// Live2DModel.registerTicker(Ticker);
-// // register InteractionManager to make Live2D models interactive
-// PIXI.Renderer.registerPlugin("interaction", InteractionManager);
+const avatarImgLink = 'https://res.cloudinary.com/dtysxszqe/image/upload/v1702964717/ylt3yueyrhxd1vobi5qc.png';
 
 const Character: React.FC = () => {
 

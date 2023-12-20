@@ -1,8 +1,16 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
-import { PlusSquareSVG, UserSVG, QuestSVG, AwardSVG, GamePadSVG, CurrencySVG, HandShakeSVG, CogSVG, LogoutSVG }  from 'assets/SVG';
+import PlusSquareSVG from '@static/images/icon/plus-square.svg';
+import UserSVG from '@static/images/icon/user.svg';
+import QuestSVG from '@static/images/icon/quest.svg';
+import AwardSVG from '@static/images/icon/cup.svg';
+import GamePadSVG from '@static/images/icon/gamepad.svg';
+import CurrencySVG from '@static/images/icon/currency.svg';
+import HandShakeSVG from '@static/images/icon/handshake.svg';
+import CogSVG from '@static/images/icon/cog.svg';
+import LogoutSVG from '@static/images/icon/logout.svg';
 
-const avatarImgLink = '/avatars/bae.png';
+const avatarImgLink = 'https://res.cloudinary.com/dtysxszqe/image/upload/v1702964717/ylt3yueyrhxd1vobi5qc.png';
 
 const Sidebar = () => {
 

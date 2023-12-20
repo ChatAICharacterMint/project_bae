@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { checkImg } from 'assets/img';
+import checkImg from '@static/images/check.png';
 
 interface ICharacter {
     name: string,
@@ -17,7 +17,7 @@ interface CharacterItemProps {
     onClick: () => void
 }
 
-const CharacterItem = (props: CharacterItemProps) => {
+const CharacterItem = (props: CharacterItemProps): React.JSX.Element => {
 
     const [isHovered, setIsHovered] = useState(false);
 

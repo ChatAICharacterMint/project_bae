@@ -1,28 +1,41 @@
-import { HappySVG } from 'assets/SVG'
-import "./_style.scss";
+import React from 'react'
+import HappySVG_0 from '@static/images/icon/happy_0.svg';
+import HappySVG_1 from '@static/images/icon/happy_1.svg';
+import HappySVG_2 from '@static/images/icon/happy_2.svg';
+import HappySVG_3 from '@static/images/icon/happy_3.svg';
+import HappySVG_4 from '@static/images/icon/happy_4.svg';
+
+import './happyindex.scss';
 
 interface HappyIndexProps {
     index: number;
 }
 
-export default function HappyIndex( props: HappyIndexProps) {
+export default function HappyIndex( props: HappyIndexProps ) {
+    const HappySVG = [
+        <HappySVG_0 key='0' />,
+        <HappySVG_1 key='1' />,
+        <HappySVG_2 key='2' />,
+        <HappySVG_3 key='3' />,
+        <HappySVG_4 key='4' />,
+    ]
 
     return (
         <div className="happy-index relative flex items-center py-[6px]">
             <div className="flex gap-[30px] px-[30px] py-[6px] bg-[#1E2026] rounded-[110px]">
                 {
                     HappySVG.map( (item, idx) => 
-                        <span key={idx} className='opacity-[0.45]'>
+                        <div key={idx} className='opacity-[0.45]'>
                             {item}
-                        </span> 
+                        </div>
                     )
                 }
             </div>
             {
                 <div className="absolute bg-[#44C849] p-[6px] rounded-full" style={{ left: `${(props.index+1) * 30 + 20}px`}} >
-                    <span className='active'>
+                    <div className='active flex justify-center items-center w-[28px] h-[28px]'>
                         {HappySVG[props.index]}
-                    </span> 
+                    </div> 
                 </div>
             }
         </div>

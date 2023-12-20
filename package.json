@@ -1,7 +1,7 @@
 {
-  "name": "ai-bae",
+  "name": "myaibae",
   "version": "1.0.0",
-  "description": "BAE Project",
+  "description": "My AI BAE",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -33,6 +33,7 @@
     "socket.io": "^4.7.2"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "postcss-nesting": "^12.0.2"
   }
 }

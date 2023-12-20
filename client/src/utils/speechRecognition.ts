@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 
-import {GOOGLE_CLOUD_API_KEY} from 'config';
+import {GOOGLE_CLOUD_API_KEY} from '../config';
 
 import {sendRequestToGoogleCloudApi} from './network';
 
@@ -111,9 +111,7 @@ const useSpeechRecognition = () => {
               dataArray.reduce((acc, val) => acc + val) / bufferLength;
           const maxHeight = 80;
 
-          if (avgVolume > 50) {
-            
-          }
+          // if (avgVolume > 50) {}
 
           bars.current.forEach((bar, index) => {
             if (bar) {
