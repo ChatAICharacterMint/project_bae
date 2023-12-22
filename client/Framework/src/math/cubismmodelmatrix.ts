@@ -4,7 +4,7 @@
  * Use of this source code is governed by the Live2D Open Software license
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
-
+// @ts-nocheck
 import { csmMap, iterator } from '../type/csmmap';
 import { CubismMatrix44 } from './cubismmatrix44';
 

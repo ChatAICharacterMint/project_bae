@@ -1,11 +1,12 @@
 import { io } from 'socket.io-client'
-import { SOCKET_SERVER } from '../config'
+import config from '../config'
 
 class SocketController {
   instance: any;
 
   constructor() {
-    this.instance = io(SOCKET_SERVER, {
+
+    this.instance = io(config.SOCKET_SERVER, {
         auth: {
           token: 'secrettoken'
         }

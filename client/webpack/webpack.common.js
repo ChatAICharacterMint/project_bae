@@ -9,7 +9,7 @@ const configPath = '../config';
 const paths = require(`${configPath}/paths`);
 const getClientEnvironment = require(`${configPath}/env`);
 
-const { appIndexJs, esLintFile, appBuild, publicUrlOrPath } = paths;
+const { appIndexJs, appBuild, publicUrlOrPath } = paths;
 
 // We will provide `paths.publicUrlOrPath` to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
@@ -21,11 +21,12 @@ const cssRegex = /\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 
 module.exports = {
+  target: ['web', 'es5'],
   entry: appIndexJs,
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.(ts|tsx)?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
       },
@@ -33,15 +34,6 @@ module.exports = {
         test: /\.(s[ac]ss|js|ts)/,
         enforce: 'pre',
         loader: 'import-glob',
-      },
-      {
-        enforce: 'pre',
-        test: /\.(js|jsx|tsx)$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-        options: {
-          configFile: esLintFile,
-        },
       },
       {
         test: /\.(js|jsx)$/,
@@ -93,7 +85,6 @@ module.exports = {
   resolve: {
     alias: {
       '@': path.resolve(__dirname, '../src'),
-      '@static': path.resolve(__dirname, '../public/static'),
       '@framework': path.resolve(__dirname, '../Framework/src')
     },
     extensions: ['.tsx', '.ts', '.js'],

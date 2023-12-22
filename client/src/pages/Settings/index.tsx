@@ -3,9 +3,9 @@ import Switch from "react-switch";
 import CharacterItem from '@/components/CharacterItem';
 
 import { AppContext } from '@/contexts';
-import useDidStream from '@/utils/streaming_did';
+// import useDidStream from '@/utils/streaming_did';
 
-import AddSVG from '@static/images/icon/add.svg';
+import AddSVG from '@/assets/images/icon/add.svg';
 
 const Settings: React.FC = () => {
   const wordsLimitation = 3000;
@@ -17,9 +17,9 @@ const Settings: React.FC = () => {
   const [availabelVoices, setAvailableVoices] = useState<Array<string>>([]);
   const [availableStyles, setAvailableStyles] = useState<Array<string>>([]);
 
-  const {
-    getIdleVideo
-  } = useDidStream();
+  // const {
+  //   getIdleVideo
+  // } = useDidStream();
 
   const [toast, setToast] = useState<string | null>(null);
   function showToast(text: string, timeout = 1000) {

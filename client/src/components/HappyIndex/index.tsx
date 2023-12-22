@@ -1,9 +1,9 @@
 import React from 'react'
-import HappySVG_0 from '@static/images/icon/happy_0.svg';
-import HappySVG_1 from '@static/images/icon/happy_1.svg';
-import HappySVG_2 from '@static/images/icon/happy_2.svg';
-import HappySVG_3 from '@static/images/icon/happy_3.svg';
-import HappySVG_4 from '@static/images/icon/happy_4.svg';
+import HappySVG_0 from '@/assets/images/icon/happy_0.svg';
+import HappySVG_1 from '@/assets/images/icon/happy_1.svg';
+import HappySVG_2 from '@/assets/images/icon/happy_2.svg';
+import HappySVG_3 from '@/assets/images/icon/happy_3.svg';
+import HappySVG_4 from '@/assets/images/icon/happy_4.svg';
 
 import './happyindex.scss';
 

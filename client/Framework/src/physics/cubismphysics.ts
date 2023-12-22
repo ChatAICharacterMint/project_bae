@@ -4,7 +4,7 @@
  * Use of this source code is governed by the Live2D Open Software license
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
-
+// @ts-nocheck
 import { CubismMath } from '../math/cubismmath';
 import { CubismVector2 } from '../math/cubismvector2';
 import { csmVector } from '../type/csmvector';

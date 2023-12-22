@@ -1,55 +1,70 @@
-interface ICharacter {
-    name: string,
-    image: string,
-    idleAnimation: string,
-    voice: string,
-    style: string,
-    happyIndex: number, // 0 - 4 // how about float value?
-    background: string
-}
-
-interface IConfig {
-    characters: Array<ICharacter>;
-    selectedCharacter: ICharacter;
-    showCaption: boolean;
-}
+import { IConfig } from "@/utils/types";
 
 const characters = [
     {
+        type: 'live2d',
+        name: 'Hiyori',
+        model: '',
+        thumbnail: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1703057256/jpiddb6qlfs5bxwpqn6b.png',
+        voice: 'en-US-JennyNeural',
+        style: 'Cheerful',
+        happyIndex: 2,
+        background: "I spent my early days growing up in New York. I had a blast bonding with my fellows. During my time there, I learned about the importance of taking care of others and making everyone around me happy. ",
+        config: {
+            
+        }
+    },
+    {   
+        type: 'image',
         name: 'ashley',
-        image: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/mmo1sk9sfreddmpwufuu.png',
-        idleAnimation: 'https://res.cloudinary.com/dtysxszqe/video/upload/v1701510590/Bae/rztsatwlkh7dqvpzyeye.mp4', 
+        model: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/mmo1sk9sfreddmpwufuu.png',
+        thumbnail: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/mmo1sk9sfreddmpwufuu.png',
         voice: 'en-US-JennyNeural',
         style: 'Cheerful',
         happyIndex: 2,
         background: "I spent my early days growing up in New York. I had a blast bonding with my fellows. During my time there, I learned about the importance of taking care of others and making everyone around me happy. ",
+        config: {
+            idleAnimation: 'https://res.cloudinary.com/dtysxszqe/video/upload/v1701510590/Bae/rztsatwlkh7dqvpzyeye.mp4', 
+        }
     },
-    {
+    {   
+        type: 'image',
         name: 'captain',
-        image: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/d0cndjfeggffrvrdsxrb.png',
-        idleAnimation: 'https://res.cloudinary.com/dtysxszqe/video/upload/v1701510590/Bae/jyzswowypxge1oqqcqpt.mp4', 
+        model: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/d0cndjfeggffrvrdsxrb.png',
+        thumbnail: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/d0cndjfeggffrvrdsxrb.png',
         voice: 'zh-CN-YunxiNeural',
         style: 'Cheerful',
         happyIndex: 2,
         background: "I spent my early days growing up in New York. I had a blast bonding with my fellows. During my time there, I learned about the importance of taking care of others and making everyone around me happy. ",
+        config: {
+            idleAnimation: 'https://res.cloudinary.com/dtysxszqe/video/upload/v1701510590/Bae/jyzswowypxge1oqqcqpt.mp4',
+        }
     },
-    {
+    {   
+        type: 'image',
         name: 'girl',
-        image: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/duliq6ycffxapu1a7uon.png',
-        idleAnimation: 'https://res.cloudinary.com/dtysxszqe/video/upload/v1701510590/Bae/q8rzhirci2tktlophxb6.mp4', 
+        model: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/duliq6ycffxapu1a7uon.png',
+        thumbnail: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/duliq6ycffxapu1a7uon.png',
         voice: 'en-US-JennyNeural',
         style: 'Cheerful',
         happyIndex: 2,
         background: "I spent my early days growing up in New York. I had a blast bonding with my fellows. During my time there, I learned about the importance of taking care of others and making everyone around me happy. ",
+        config: {
+            idleAnimation: 'https://res.cloudinary.com/dtysxszqe/video/upload/v1701510590/Bae/q8rzhirci2tktlophxb6.mp4', 
+        }
     },
-    {
+    {   
+        type: 'image',
         name: 'boy',
-        image: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/kjs9lmgosy5baft5gghf.png',
-        idleAnimation: 'https://res.cloudinary.com/dtysxszqe/video/upload/v1701510590/Bae/hndc3fkxad9k8wmapja2.mp4', 
+        model: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/kjs9lmgosy5baft5gghf.png',
+        thumbnail: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/kjs9lmgosy5baft5gghf.png',
         voice: 'zh-CN-YunxiNeural',
         style: 'Cheerful',
         happyIndex: 2,
         background: "I spent my early days growing up in New York. I had a blast bonding with my fellows. During my time there, I learned about the importance of taking care of others and making everyone around me happy. ",
+        config: {
+            idleAnimation: 'https://res.cloudinary.com/dtysxszqe/video/upload/v1701510590/Bae/hndc3fkxad9k8wmapja2.mp4', 
+        }
     },
 ]
 

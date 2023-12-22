@@ -19,14 +19,11 @@
     "typeRoots": ["config/@types", "node_modules/@types"],
     "paths": {
       "@/*": ["src/*"],
-      "@static/*": ["public/static/*"],
       "@framework/*": ["Framework/src/*"],
     },
   },
   "exclude": [
     "node_modules",
     "dist",
-    "Core",
-    "Framework"
   ]
 }

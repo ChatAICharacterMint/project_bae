@@ -34,9 +34,10 @@ module.exports = merge(common, {
         modules: false,
         publicPath: false,
       },
+      writeToDisk: true,
     },
-    host,
-    hot: true,
+    compress: true,
+    host: host,
     port: PORT,
     historyApiFallback: true,
     onAfterSetupMiddleware: () => {

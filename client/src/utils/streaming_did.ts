@@ -1,16 +1,7 @@
-import { useState, useRef, useContext } from 'react';
+import { useRef, useContext } from 'react';
 import config from '../config';
 import { AppContext } from '@/contexts';
-
-interface ICharacter {
-  name: string,
-  image: string,
-  idleAnimation: string,
-  voice: string,
-  style: string,
-  happyIndex: number, // 0 - 4 // how about float value?
-  background: string
-}
+import { ICharacter } from './types';
 
 const useDidStream = () => {
   const DID_API_KEY = config.DID_API_KEY;
@@ -37,7 +28,7 @@ const useDidStream = () => {
   const onTalkStart = useRef(() => {});
 
   const connectDid = async () => {
-    if(context.config.state.selectedCharacter.idleAnimation == '') {
+    if(context.config.state.selectedCharacter.config.idleAnimation == '') {
       console.log("Can't load model")
       return;
     }
@@ -57,7 +48,7 @@ const useDidStream = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        source_url: context.config.state.selectedCharacter.image
+        source_url: context.config.state.selectedCharacter.model
       }),
     });
   
@@ -74,7 +65,7 @@ const useDidStream = () => {
       return;
     }
   
-    const sdpResponse = await fetch(`${DID_API_URL}/talks/streams/${streamId}/sdp`, {
+    await fetch(`${DID_API_URL}/talks/streams/${streamId}/sdp`, {
       method: 'POST',
       headers: {
         Authorization: `Basic ${DID_API_KEY}`,
@@ -88,23 +79,25 @@ const useDidStream = () => {
   };
 
   const destoryDid = async () => {
-    await fetch(`${DID_API_URL}/talks/streams/${streamId}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Basic ${DID_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ session_id: sessionId }),
-    });
-  
-    stopAllStreams();
-    closePC();
+    if (peerConnection && streamId) {
+      await fetch(`${DID_API_URL}/talks/streams/${streamId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Basic ${DID_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ session_id: sessionId }),
+      });
+    
+      stopAllStreams();
+      closePC();
+    }
   };
 
   const talkDid = async (text: string) => {
     // connectionState not supported in firefox
     if (peerConnection?.signalingState === 'stable' || peerConnection?.iceConnectionState === 'connected') {
-      const talkResponse = await fetchWithRetries(`${DID_API_URL}/talks/streams/${streamId}`, {
+      await fetchWithRetries(`${DID_API_URL}/talks/streams/${streamId}`, {
         method: 'POST',
         headers: {
           Authorization: `Basic ${DID_API_KEY}`,
@@ -223,7 +216,7 @@ const useDidStream = () => {
   }
 
   const getIdleVideo = async (character: ICharacter, callback: (e: any) => void) => {
-    if(character.idleAnimation == '') {
+    if(character.config.idleAnimation == '') {
       const res = await fetchWithRetries(`${DID_API_URL}/talks`, {
         method: 'POST',
         headers: {
@@ -231,7 +224,7 @@ const useDidStream = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          source_url: character.image,
+          source_url: character.model,
           driver_url: 'bank://lively/',
           script: {
             type: 'text',
@@ -248,7 +241,7 @@ const useDidStream = () => {
           },
         }),
       });
-      const {id, status, created_by, created_at, object} = await res.json();
+      const {id} = await res.json();
       if(id) {
         await getResultURLWithRetries(id, callback);
       }
@@ -292,7 +285,7 @@ const useDidStream = () => {
   function playIdleVideo() {
     if(!talkVideo.current) return;
     talkVideo.current.srcObject = null;
-    talkVideo.current.src = context.config.state.selectedCharacter.idleAnimation;
+    talkVideo.current.src = context.config.state.selectedCharacter.config.idleAnimation;
     talkVideo.current.loop = true;
     talkVideo.current.muted = true;
 

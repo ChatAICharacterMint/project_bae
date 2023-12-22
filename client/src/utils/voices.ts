@@ -1,18 +1,8 @@
-
-/**
- * Represents a playable voice.
- */
-export interface Voice {
-  languageCode: string;
-  name: string;
-  ssmlGender: string;
-  naturalSampleRateHertz: number;
-}
-
+import { IVoice } from "./types";
 /**
  * List of available voices.
  */
-export const ALL_VOICES: Voice[] = [
+export const ALL_VOICES: IVoice[] = [
   {
     'languageCode': 'da-DK',
     'name': 'da-DK-Wavenet-A',
@@ -676,20 +666,7 @@ export const WAVE_NET_VOICES =
 /**
  * Standard voices.
  */
-export const STANDARD_VOICES =
-    ALL_VOICES.filter(v => v.name.indexOf('-Standard-') > -1);
-
-/**
- * Avatar voice.
- */
-export interface AvatarVoice {
-  cloudTtsVoice?: Voice;
-  cloudTtsPitch?: number;
-  speakingRate?: number;
-  pitchShift?: number;
-  winslow?: boolean;
-  winslowVoiceName?: string;
-}
+export const STANDARD_VOICES = ALL_VOICES.filter(v => v.name.indexOf('-Standard-') > -1);
 
 /**
  * Default AvatarVoice.

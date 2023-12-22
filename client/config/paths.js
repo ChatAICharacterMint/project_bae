@@ -18,7 +18,6 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 const publicUrlOrPath = ''; //getPublicUrlOrPath();
 
 module.exports = {
-  esLintFile: resolveApp('.eslintrc.js'),
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   appBuild: resolveApp('build'),

@@ -1,17 +1,19 @@
-import React, { useState, useEffect, useRef, useContext, Suspense } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { NavLink } from "react-router-dom";
+import Live2D from '@/components/Live2D';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 // import useTextToSpeech from "utils/textToSpeech";
 import useDidStream from "@/utils/streaming_did";
 import Socket from '@/utils/socket';
 import { AppContext } from '@/contexts';
+import { ICharacter } from "@/utils/types";
 
 import HappyIndex from '@/components/HappyIndex';
-import LocationSVG from '@static/images/icon/location.svg';
-import BadgeSVG from '@static/images/icon/badge.svg';
-import SendSVG from '@static/images/icon/send.svg';
-import MicSVG from '@static/images/icon/mic.svg';
-import MenuSVG from '@static/images/icon/menu.svg';
+import LocationSVG from '@/assets/images/icon/location.svg';
+import BadgeSVG from '@/assets/images/icon/badge.svg';
+import SendSVG from '@/assets/images/icon/send.svg';
+import MicSVG from '@/assets/images/icon/mic.svg';
+import MenuSVG from '@/assets/images/icon/menu.svg';
 
 const happyIndex = 2;
 const avatarImgLink = 'https://res.cloudinary.com/dtysxszqe/image/upload/v1702964717/ylt3yueyrhxd1vobi5qc.png';
@@ -20,9 +22,9 @@ const Character: React.FC = () => {
 
     const socket = Socket.instance;
     const context = useContext(AppContext);
+    const [character, setCharacter] = useState<ICharacter | null>(null);
     const [ caption, setCaption ] = useState(null);
     const messageRef = useRef<HTMLInputElement>(null);
-    const [isLive2d, setIsLive2d] = useState(false);
 
     const {
         transcript,
@@ -49,28 +51,39 @@ const Character: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if(!isLive2d) {
-            connectDid();
-            setTalkEndCallback(() => {
-                setCaption(null);
-            })
-            return () => {
-                destoryDid();
+        setCharacter(context.config.state.selectedCharacter)
+    }, [context.config.state.selectedCharacter])
+
+    useEffect(() => {
+        
+        if(character) {
+            if(character.type === 'image') {
+                connectDid();
+                setTalkEndCallback(() => {
+                    setCaption(null);
+                })
+            } else if(character.type === 'live2d') {
+                console.log('live2d')
             }
         }
         
-    }, [isLive2d])
+        return () => {
+            destoryDid();
+        }
+        
+    }, [character])
 
     useEffect(() => {
         socket.emit('init_bot', { message: context.config.state.selectedCharacter })
 
         socket.on('@response', (res: { message: any; }) => {
             console.log(res.message)
-            if(res.message && res.message !== '')
+            if(res.message && res.message !== '') {
                 setTalkStartCallback(() => {
                     setCaption(res.message)
                 })
                 talkDid(res.message);
+            }
         });
     }, [socket])
 
@@ -104,11 +117,14 @@ const Character: React.FC = () => {
         <div className="w-full flex-grow flex flex-col gap-[2rem] pl-[2rem] sm:pl-0 pr-[2rem] pb-[2rem]">
             <div className="relative w-full aspect-auto flex-grow flex justify-center items-start overflow-hidden rounded-[20px] border-[1px] border-[#0004] bg-[#000b]">
                 {
-                    isLive2d ?
-                    <div></div>
-                    :
+                    character && character.type === 'image' &&
                     <video ref={talkVideo} autoPlay muted playsInline className="absolute top-0 left-0 h-full w-full object-cover object-top"></video>
                 }
+                {
+                    character && character.type === 'live2d' &&
+                    <Live2D character={character} />
+                }
+                
                 {
                     context.config.state.showCaption && (caption != null || transcript !== '') && (
                         <div className="absolute bottom-2 text-[#fff] bg-[#0004] rounded-[10px] px-[16px] py-[10px] mx-auto"

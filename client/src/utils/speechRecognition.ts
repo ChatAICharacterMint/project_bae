@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 
-import {GOOGLE_CLOUD_API_KEY} from '../config';
+import config from '../config';
 
 import {sendRequestToGoogleCloudApi} from './network';
 
@@ -166,7 +166,7 @@ const useSpeechRecognition = () => {
               },
               audio: {content: audioString},
             },
-            GOOGLE_CLOUD_API_KEY)
+            config.GOOGLE_CLOUD_API_KEY)
             .then(response => {
               if (response !== null && response.results !== undefined) {
                 const topTranscriptionAlternative = response.results[0];

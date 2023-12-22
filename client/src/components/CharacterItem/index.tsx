@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
-import checkImg from '@static/images/check.png';
-
-interface ICharacter {
-    name: string,
-    image: string,
-    idleAnimation: string,
-    voice: string,
-    style: string,
-    happyIndex: number, // 0 - 4 // how about float value?
-    background: string
-}
+import checkImg from '@/assets/images/check.png';
+import { ICharacter } from '@/utils/types';
 
 interface CharacterItemProps {
     character: ICharacter,
@@ -37,7 +28,7 @@ const CharacterItem = (props: CharacterItemProps): React.JSX.Element => {
                 onMouseLeave={handleMouseLeave}
             >
                 <img className='w-[120px] h-[120px] rounded-[1rem]'
-                    src={props.character.image} alt='' 
+                    src={props.character.thumbnail} alt='' 
                 />
                 {
                     props.selected &&

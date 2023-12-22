@@ -2,15 +2,15 @@ import { Buffer } from "buffer";
 import { useEffect, useRef } from "react";
 import * as Tone from "tone";
 
-import { GOOGLE_CLOUD_API_KEY } from '../config';
+import config from '../config';
 import { sendRequestToGoogleCloudApi } from "./network";
 import {
-  AvatarVoice,
-  Voice,
   DEFAULT_AVATAR_VOICE,
   WAVE_NET_VOICES,
   STANDARD_VOICES
 } from "./voices";
+
+import { IVoice, IAvatarVoice } from "./types";
 
 /**
  * Response return by the synthesize method.
@@ -68,15 +68,15 @@ const useTextToSpeech = () => {
     }
   };
 
-  const getVoices = async (): Promise<Voice[]> => {
+  const getVoices = async (): Promise<IVoice[]> => {
     return WAVE_NET_VOICES;
   };
 
-  const getStandardVoices = async (): Promise<Voice[]> => {
+  const getStandardVoices = async (): Promise<IVoice[]> => {
     return STANDARD_VOICES;
   }
 
-  const getDefaultAvatarVoice = (): AvatarVoice => {
+  const getDefaultAvatarVoice = (): IAvatarVoice => {
     return DEFAULT_AVATAR_VOICE;
   };
 
@@ -94,7 +94,7 @@ const useTextToSpeech = () => {
 
   const synthesize = async (
     text: string,
-    voice: AvatarVoice
+    voice: IAvatarVoice
   ): Promise<SynthesizeResponse> => {
     const startSynthTime = performance.now();
     if (!text) {
@@ -113,9 +113,8 @@ const useTextToSpeech = () => {
     if (voice.cloudTtsPitch) {
       cloudTtsPitch = voice.cloudTtsPitch;
     }
-    let response: SynthesizeResponse;
 
-    response = await sendRequestToGoogleCloudApi(
+    const response = await sendRequestToGoogleCloudApi(
       "https://texttospeech.googleapis.com/v1/text:synthesize",
       {
         input: { 'ssml': text },
@@ -130,7 +129,7 @@ const useTextToSpeech = () => {
           name: cloudTtsVoice.name,
         },
       },
-      GOOGLE_CLOUD_API_KEY
+      config.GOOGLE_CLOUD_API_KEY
     ).then((response) => {
       if(response.error) {
         return { audioContent: null };
@@ -161,7 +160,7 @@ const useTextToSpeech = () => {
 
   const play = async (
     audioContent: ArrayBuffer,
-    voice: AvatarVoice
+    voice: IAvatarVoice
   ): Promise<void> => {
     console.log("Play audio");
     if (voice.pitchShift) {

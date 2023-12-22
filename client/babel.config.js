@@ -1,8 +1,8 @@
-module.exports = function (api) {
-  api.cache(true);
-  return {
-    presets: ['@babel/preset-env', '@babel/preset-react'],
-    plugins: ['@babel/plugin-transform-runtime'],
-    sourceType: 'unambiguous',
-  };
-};
+module.exports = {
+    overrides: [{
+      test: /\.d\.ts$/,
+      parserOpts: {
+      plugins: [["typescript", { "dts": true }]]
+      }
+    }]
+}
