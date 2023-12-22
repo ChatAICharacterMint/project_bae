@@ -82,16 +82,17 @@ const Character: React.FC = () => {
 
     useEffect(() => {
         socket.emit('init_bot', { message: context.config.state.selectedCharacter })
-
+        
         socket.on('@response', (res: { message: any; }) => {
-            console.log(res.message)
-            if(character && res.message && res.message !== '') {
-                if(character.type === 'image') {
+            const c = context.config.state.selectedCharacter
+            if(res.message && res.message !== '') {
+                console.log(res.message)
+                if(c.type === 'image') {
                     setDidTalkStartCallback(() => {
                         setCaption(res.message)
                     })
                     talkDid(res.message);
-                } else if(character.type === 'live2d') {
+                } else if(c.type === 'live2d') {
                     talkLive2D(res.message)
                 }
                 

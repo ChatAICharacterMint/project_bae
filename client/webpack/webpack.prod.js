@@ -13,7 +13,8 @@ const ImageminWebpack = require('image-minimizer-webpack-plugin');
 const paths = require('../config/paths');
 const { appBuild, appPublic, appHtml } = paths;
 
-const imageTypeIgnoreCopy = ['.png', '.jpg', '.jpeg', '.gif', '.svg'];
+// const imageTypeIgnoreCopy = ['.png', '.jpg', '.jpeg', '.gif', '.svg'];
+
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 
 module.exports = merge(common, {
@@ -30,12 +31,11 @@ module.exports = merge(common, {
         {
           from: path.resolve(appPublic, 'static'),
           to: path.resolve(appBuild, 'static'),
-          globOptions: {
-            ignore: [
-              ...imageTypeIgnoreCopy.map(ext => `**/images/*/*${ext}`),
-              '**/fonts/**',
-            ],
-          },
+          toType: 'dir',
+        },
+        {
+          from: path.resolve(appPublic, 'resources'),
+          to: path.resolve(appBuild, 'resources'),
           toType: 'dir',
         },
       ],
@@ -71,27 +71,27 @@ module.exports = merge(common, {
     pathinfo: true,
     // There will be one main bundle, and one file per asynchronous chunk.
     // In development, it does not produce real files.
-    filename: 'static/js/[name].[chunkhash].js',
+    filename: 'static/js/bundle.js',
     // There are also additional JS chunk files if you use code splitting.
-    chunkFilename: 'static/js/[name].[chunkhash].chunk.js',
+    chunkFilename: 'static/js/[name].chunk.js',
     clean: true,
   },
   optimization: {
     nodeEnv: 'production',
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true,
-        },
-      },
-    },
+    // splitChunks: {
+    //   chunks: 'all',
+    //   cacheGroups: {
+    //     vendors: {
+    //       test: /[\\/]node_modules[\\/]/,
+    //       priority: -10,
+    //     },
+    //     default: {
+    //       minChunks: 2,
+    //       priority: -20,
+    //       reuseExistingChunk: true,
+    //     },
+    //   },
+    // },
     minimize: true,
     minimizer: [
       // This is only used in production mode
@@ -103,7 +103,7 @@ module.exports = merge(common, {
             // into invalid ecma 5 code. This is why the 'compress' and 'output'
             // sections only apply transformations that are ecma 5 safe
             // https://github.com/facebook/create-react-app/pull/4234
-            ecma: 8,
+            ecma: 5,
           },
           compress: {
             ecma: 5,

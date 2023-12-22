@@ -37,11 +37,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, "client/build")));
-app.use(
-  "/assets/images",
-  express.static(path.join(__dirname, "assets/images"))
-);
+app.use(express.static(path.join(__dirname, "/client/build")));
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
