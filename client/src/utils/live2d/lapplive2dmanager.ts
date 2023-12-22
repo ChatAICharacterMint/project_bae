@@ -9,7 +9,7 @@
 import { CubismMatrix44 } from '@framework/math/cubismmatrix44';
 import { ACubismMotion } from '@framework/motion/acubismmotion';
 import { csmVector } from '@framework/type/csmvector';
-import { AzureAi } from './azureai';
+import { AzureSpeech } from '@/utils/azureSpeech';
 
 import * as LAppDefine from './lappdefine';
 import { canvas } from './lappdelegate';
@@ -102,6 +102,7 @@ export class LAppLive2DManager {
         `[APP]tap point: {x: ${x.toFixed(2)} y: ${y.toFixed(2)}}`
       );
     }
+
     for (let i = 0; i < this._models.getSize(); i++) {
       if (this._models.at(i).hitTest(LAppDefine.HitAreaNameHead, x, y)) {
         if (LAppDefine.DebugLogEnable) {
@@ -109,48 +110,28 @@ export class LAppLive2DManager {
             `[APP]hit area: [${LAppDefine.HitAreaNameHead}]`
           );
         }
-        this._models.at(i).setRandomExpression();
+        // this._models.at(i).setRandomExpression();
       } else if (this._models.at(i).hitTest(LAppDefine.HitAreaNameBody, x, y)) {
         if (LAppDefine.DebugLogEnable) {
           LAppPal.printMessage(
             `[APP]hit area: [${LAppDefine.HitAreaNameBody}]`
           );
         }
-
-        // #TODO:
-        // const prompt: string = (document.getElementById("prompt") as any).value;
-        // const language: string = (document.getElementById("language") as any).value;
-        // const azureAi = new AzureAi();
-        // azureAi.getOpenAiAnswer(prompt)
-        //   .then(ans => azureAi.getSpeechUrl(language, ans))
-        //   .then(url => {
-        //     this._models.at(i)._wavFileHandler.loadWavFile(url);
-        //     this._models
-        //       .at(i)
-        //       .startRandomMotion(
-        //         LAppDefine.MotionGroupTapBody,
-        //         LAppDefine.PriorityNormal,
-        //         this._finishedMotion
-        //       );
-        //   });
-
+        // this._models.at(i).setRandomExpression();
       }
     }
+
   }
 
-  public startVoiceConversation(language: string, data: Blob) {
+  public startVoiceConversation(language: string, text: string) {
     for (let i = 0; i < this._models.getSize(); i++) {
       if (LAppDefine.DebugLogEnable) {
         LAppPal.printMessage(
           `startConversation`
         );
-        const azureAi = new AzureAi();
+        const azureSpeech = new AzureSpeech();
 
-        azureAi.getTextFromSpeech(language, data)
-          .then(text => {
-            // (document.getElementById("prompt") as any).value = text;
-            return azureAi.getOpenAiAnswer(text);
-          }).then(ans => azureAi.getSpeechUrl(language, ans))
+        azureSpeech.getSpeechUrl(language, text)
           .then(url => {
             this._models.at(i)._wavFileHandler.loadWavFile(url);
             this._models
@@ -199,30 +180,19 @@ export class LAppLive2DManager {
   }
 
   /**
-   * 次のシーンに切りかえる
-   * サンプルアプリケーションではモデルセットの切り替えを行う。
-   */
-  public nextScene(): void {
-    const no: number = (this._sceneIndex + 1) % LAppDefine.ModelDirSize;
-    this.changeScene(no);
-  }
-
-  /**
    * シーンを切り替える
    * サンプルアプリケーションではモデルセットの切り替えを行う。
    */
-  public changeScene(index: number): void {
-    this._sceneIndex = index;
+  public changeScene(model: string): void {
     if (LAppDefine.DebugLogEnable) {
-      LAppPal.printMessage(`[APP]model index: ${this._sceneIndex}`);
+      LAppPal.printMessage(`[APP]model: ${model}`);
     }
 
     // ModelDir[]に保持したディレクトリ名から
     // model3.jsonのパスを決定する。
     // ディレクトリ名とmodel3.jsonの名前を一致させておくこと。
-    const model: string = LAppDefine.ModelDir[index];
     const modelPath: string = LAppDefine.ResourcesPath + model + '/';
-    let modelJsonName: string = LAppDefine.ModelDir[index];
+    let modelJsonName: string = model;
     modelJsonName += '.model3.json';
 
     this.releaseAllModel();
@@ -242,13 +212,11 @@ export class LAppLive2DManager {
   constructor() {
     this._viewMatrix = new CubismMatrix44();
     this._models = new csmVector<LAppModel>();
-    this._sceneIndex = 1;
-    this.changeScene(this._sceneIndex);
+    this.changeScene(LAppDefine.Model);
   }
 
   _viewMatrix: CubismMatrix44; // モデル描画に用いるview行列
   _models: csmVector<LAppModel>; // モデルインスタンスのコンテナ
-  _sceneIndex: number; // 表示するシーンのインデックス値
   // モーション再生終了のコールバック関数
   _finishedMotion = (self: ACubismMotion): void => {
     LAppPal.printMessage('Motion Finished:');

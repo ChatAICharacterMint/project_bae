@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 
-import config from '../config';
+import config from '@/config';
 
 import {sendRequestToGoogleCloudApi} from './network';
 

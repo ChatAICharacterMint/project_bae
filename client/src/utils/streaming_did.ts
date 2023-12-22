@@ -1,7 +1,7 @@
 import { useRef, useContext } from 'react';
-import config from '../config';
+import config from '@/config';
 import { AppContext } from '@/contexts';
-import { ICharacter } from './types';
+import { ICharacter } from '@/utils/types';
 
 const useDidStream = () => {
   const DID_API_KEY = config.DID_API_KEY;
@@ -324,11 +324,11 @@ const useDidStream = () => {
     }
   }
 
-  const setTalkEndCallback = (callback: any) => {
+  const setDidTalkEndCallback = (callback: any) => {
     onTalkEnd.current = callback;
   }
 
-  const setTalkStartCallback = (callback: any) => {
+  const setDidTalkStartCallback = (callback: any) => {
     onTalkStart.current = callback;
   }
   
@@ -337,8 +337,8 @@ const useDidStream = () => {
     talkDid,
     connectDid,
     destoryDid,
-    setTalkEndCallback,
-    setTalkStartCallback,
+    setDidTalkEndCallback,
+    setDidTalkStartCallback,
     getIdleVideo
   }
 }

@@ -2,7 +2,7 @@ import { Buffer } from "buffer";
 import { useEffect, useRef } from "react";
 import * as Tone from "tone";
 
-import config from '../config';
+import config from '@/config';
 import { sendRequestToGoogleCloudApi } from "./network";
 import {
   DEFAULT_AVATAR_VOICE,
@@ -10,7 +10,7 @@ import {
   STANDARD_VOICES
 } from "./voices";
 
-import { IVoice, IAvatarVoice } from "./types";
+import { IVoice, IAvatarVoice } from "@/utils/types";
 
 /**
  * Response return by the synthesize method.

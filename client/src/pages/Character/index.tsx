@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { NavLink } from "react-router-dom";
-import Live2D from '@/components/Live2D';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 // import useTextToSpeech from "utils/textToSpeech";
 import useDidStream from "@/utils/streaming_did";
+import useLive2d from '@/utils/live2d';
 import Socket from '@/utils/socket';
 import { AppContext } from '@/contexts';
 import { ICharacter } from "@/utils/types";
@@ -39,9 +39,15 @@ const Character: React.FC = () => {
         talkDid,
         connectDid,
         destoryDid,
-        setTalkEndCallback,
-        setTalkStartCallback,
+        setDidTalkEndCallback,
+        setDidTalkStartCallback,
     } = useDidStream();
+
+    const {
+        initializeLive2D,
+        releaseLive2D,
+        talkLive2D
+    } = useLive2d();
 
     useEffect(() => {
         if (!browserSupportsSpeechRecognition) {
@@ -59,16 +65,17 @@ const Character: React.FC = () => {
         if(character) {
             if(character.type === 'image') {
                 connectDid();
-                setTalkEndCallback(() => {
+                setDidTalkEndCallback(() => {
                     setCaption(null);
                 })
             } else if(character.type === 'live2d') {
-                console.log('live2d')
+                initializeLive2D();
             }
         }
         
         return () => {
             destoryDid();
+            releaseLive2D();
         }
         
     }, [character])
@@ -78,11 +85,16 @@ const Character: React.FC = () => {
 
         socket.on('@response', (res: { message: any; }) => {
             console.log(res.message)
-            if(res.message && res.message !== '') {
-                setTalkStartCallback(() => {
-                    setCaption(res.message)
-                })
-                talkDid(res.message);
+            if(character && res.message && res.message !== '') {
+                if(character.type === 'image') {
+                    setDidTalkStartCallback(() => {
+                        setCaption(res.message)
+                    })
+                    talkDid(res.message);
+                } else if(character.type === 'live2d') {
+                    talkLive2D(res.message)
+                }
+                
             }
         });
     }, [socket])
@@ -122,7 +134,10 @@ const Character: React.FC = () => {
                 }
                 {
                     character && character.type === 'live2d' &&
-                    <Live2D character={character} />
+                    <div id="live2d-container" className='absolute top-0 left-0 h-full w-full object-cover object-top'>
+                        <canvas id="live2d" className='w-full h-full rounded-[20px]'></canvas>
+                        <audio id='voice' className='hidden' />
+                    </div>
                 }
                 
                 {

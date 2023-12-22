@@ -1,69 +1,20 @@
 // @ts-nocheck
 
-import { LAppPal } from './lapppal';
 import { getWaveBlob } from 'webm-to-wav-converter';
 import { LANGUAGE_TO_VOICE_MAPPING_LIST } from './languagetovoicemapping';
 import config from '@/config';
 
-export class AzureAi {
-  private _openaiurl: string;
-  private _openaipikey: string;
+export class AzureSpeech {
   private _ttsapikey: string;
   private _ttsregion: string;
 
-  private _inProgress: boolean;
-
   constructor() {
-    this._openaiurl = "";
-    this._openaipikey = "";
     this._ttsregion = config.TTS_REGION;
     this._ttsapikey = config.TTS_API_KEY;
-
-    this._inProgress = false;
-  }
-
-  async getOpenAiAnswer(prompt: string) {
-    if (this._openaiurl === undefined || this._inProgress || prompt === '')
-      return '';
-
-    this._inProgress = true;
-
-    // const conversations = (document.getElementById('conversations') as any)
-    //   .value;
-    const conversations = "";
-    LAppPal.printMessage(prompt);
-
-    const conversation = conversations + '\n\n## ' + prompt;
-    const m = {
-      prompt: `##${conversation}\n\n`,
-      max_tokens: 300,
-      temperature: 0,
-      frequency_penalty: 0,
-      presence_penalty: 0,
-      top_p: 1,
-      stop: ['#', ';']
-    };
-
-    const repsonse = await fetch(this._openaiurl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'api-key': this._openaipikey
-      },
-      body: JSON.stringify(m)
-    });
-    const json = await repsonse.json();
-    const answer: string = json.choices[0].text;
-    LAppPal.printMessage(answer);
-    // (document.getElementById('reply') as any).value = answer;
-    // (document.getElementById('conversations') as any).value =
-    //   conversations + '\n\n' + answer;
-
-    return answer;
   }
 
   async getSpeechUrl(language: string, text: string) {
-    if (this._ttsregion === undefined) return;
+    if (this._ttsregion === undefined || this._ttsregion === "") return;
 
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('Content-Type', 'application/ssml+xml');
@@ -75,11 +26,12 @@ export class AzureAi {
     ).voice;
 
     const ssml = `
-<speak version=\'1.0\' xml:lang=\'${language}\'>
-  <voice xml:lang=\'${language}\' xml:gender=\'Female\' name=\'${voice}\'>
-    ${text}
-  </voice>
-</speak>`;
+      <speak version=\'1.0\' xml:lang=\'${language}\'>
+        <voice xml:lang=\'${language}\' xml:gender=\'Female\' name=\'${voice}\'>
+          ${text}
+        </voice>
+      </speak>
+    `;
 
     const response = await fetch(
       `https://${this._ttsregion}.tts.speech.microsoft.com/cognitiveservices/v1`,
@@ -95,15 +47,13 @@ export class AzureAi {
     const url = window.URL.createObjectURL(blob);
     const audio: any = document.getElementById('voice');
     audio.src = url;
-    LAppPal.printMessage(`Load Text to Speech url`);
-    this._inProgress = false;
+
     return url;
   }
 
   async getTextFromSpeech(language: string, data: Blob) {
-    if (this._ttsregion === undefined) return '';
+    if (this._ttsregion === undefined || this._ttsregion === "") return '';
 
-    LAppPal.printMessage(language);
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('Accept', 'application/json;text/xml');
     requestHeaders.set(

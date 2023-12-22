@@ -251,8 +251,8 @@ export class LAppDelegate {
     return this._textureManager;
   }
 
-  public startVoiceConversation(language: string, data: Blob) {
-    LAppLive2DManager.getInstance().startVoiceConversation(language, data);
+  public startVoiceConversation(language: string, text: string) {
+    LAppLive2DManager.getInstance().startVoiceConversation(language, text);
   }
 
   /**
@@ -355,7 +355,7 @@ function onClickEnded(e: MouseEvent): void {
   const rect = (e.target as Element).getBoundingClientRect();
   const posX: number = e.clientX - rect.left;
   const posY: number = e.clientY - rect.top;
-  console.log(posX, posY)
+  
   LAppDelegate.getInstance()._view.onTouchesEnded(posX, posY);
 }
 

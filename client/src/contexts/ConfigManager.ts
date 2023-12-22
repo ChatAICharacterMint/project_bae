@@ -4,14 +4,14 @@ const characters = [
     {
         type: 'live2d',
         name: 'Hiyori',
-        model: '',
+        model: 'Hiyori',
         thumbnail: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1703057256/jpiddb6qlfs5bxwpqn6b.png',
         voice: 'en-US-JennyNeural',
         style: 'Cheerful',
         happyIndex: 2,
         background: "I spent my early days growing up in New York. I had a blast bonding with my fellows. During my time there, I learned about the importance of taking care of others and making everyone around me happy. ",
         config: {
-            
+            back_img: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1703229724/mtsdwadts1yhvzmcr3wv.png'
         }
     },
     {   

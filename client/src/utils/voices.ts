@@ -1,4 +1,4 @@
-import { IVoice } from "./types";
+import { IVoice } from "@/utils/types";
 /**
  * List of available voices.
  */

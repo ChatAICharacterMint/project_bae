@@ -34,7 +34,9 @@ export const ViewLogicalMaxTop = 2.0;
 export const ResourcesPath = './Resources/';
 
 // モデルの後ろにある背景の画像ファイル
-export let BackImage = 'https://res.cloudinary.com/dtysxszqe/image/upload/v1703229724/mtsdwadts1yhvzmcr3wv.png';
+// #TODO: default blank image
+export let BackImage = "";
+export let Model ="Haru";
 
 // モデル定義---------------------------------------------
 // モデルを配置したディレクトリ名の配列
@@ -64,18 +66,18 @@ export const PriorityNormal = 2;
 export const PriorityForce = 3;
 
 // デバッグ用ログの表示オプション
-export const DebugLogEnable = true;
+export const DebugLogEnable = false;
 export const DebugTouchLogEnable = false;
 
 // Frameworkから出力するログのレベル設定
 export const CubismLoggingLevel: LogLevel = LogLevel.LogLevel_Verbose;
 
-// デフォルトのレンダーターゲットサイズ
-export const RenderTargetWidth = 1900;
-export const RenderTargetHeight = 1000;
-
 export class lappdefineSet {
   public static setBackImage(image: string): void {
-    BackImage = image ? image : "https://res.cloudinary.com/dtysxszqe/image/upload/v1703229724/mtsdwadts1yhvzmcr3wv.png";
+    BackImage = image ? image : '';
+  }
+
+  public static setModel(model: string): void {
+    Model = model ? model : 'Haru';
   }
 }
