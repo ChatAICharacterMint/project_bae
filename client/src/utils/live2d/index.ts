@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect } from 'react';
+import { useRef, useContext, useLayoutEffect } from 'react';
 import { AppContext } from '@/contexts';
 import { LAppDelegate } from './lappdelegate';
 import * as LAppDefine from './lappdefine';
@@ -6,6 +6,8 @@ import * as LAppDefine from './lappdefine';
 const useLive2D = () => {
 
     const context = useContext(AppContext);
+    const OnTalkStart = useRef(() => {});
+    const OnTalkEnd = useRef(() => {});
 
     useLayoutEffect(() => {
 
@@ -38,10 +40,20 @@ const useLive2D = () => {
         LAppDelegate.getInstance().startVoiceConversation(language ? language : "en-US", text)
     }
 
+    const setLive2DTalkStartCallback = (callback: any) => {
+        OnTalkStart.current = callback;
+    }
+
+    const setLive2DTalkEndCallback = (callback: any) => {
+        OnTalkEnd.current = callback;
+    }
+
     return {
         initializeLive2D,
         releaseLive2D,
-        talkLive2D
+        talkLive2D,
+        setLive2DTalkStartCallback,
+        setLive2DTalkEndCallback
     }
     
 };

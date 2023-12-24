@@ -5,7 +5,6 @@ export interface ICharacter {
     thumbnail: string,
     voice: string,
     style: string,
-    happyIndex: number, // 0 - 4 // TODO: how about float value for more accurate expression?
     background: string,
     config: any
 }

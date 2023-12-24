@@ -32,7 +32,7 @@ export default function HappyIndex( props: HappyIndexProps ) {
                 }
             </div>
             {
-                <div className="absolute bg-[#44C849] p-[6px] rounded-full" style={{ left: `${(props.index+1) * 30 + 20}px`}} >
+                <div className="absolute bg-[#44C849] p-[6px] rounded-full" style={{ left: `${(props.index + 1) * 38 + props.index * 8 - 20}px`}} >
                     <div className='active flex justify-center items-center w-[28px] h-[28px]'>
                         {HappySVG[props.index]}
                     </div> 

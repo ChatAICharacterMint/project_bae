@@ -99,7 +99,7 @@ export class LAppLive2DManager {
   public onTap(x: number, y: number): void {
     if (LAppDefine.DebugLogEnable) {
       LAppPal.printMessage(
-        `[APP]tap point: {x: ${x.toFixed(2)} y: ${y.toFixed(2)}}`
+        `[APP]tap point: {x: ${x} y: ${y}}`
       );
     }
 
@@ -124,26 +124,28 @@ export class LAppLive2DManager {
   }
 
   public startVoiceConversation(language: string, text: string) {
+
     for (let i = 0; i < this._models.getSize(); i++) {
       if (LAppDefine.DebugLogEnable) {
         LAppPal.printMessage(
           `startConversation`
         );
-        const azureSpeech = new AzureSpeech();
-
-        azureSpeech.getSpeechUrl(language, text)
-          .then(url => {
-            this._models.at(i)._wavFileHandler.loadWavFile(url);
-            this._models
-              .at(i)
-              .startRandomMotion(
-                LAppDefine.MotionGroupTapBody,
-                LAppDefine.PriorityNormal,
-                this._finishedMotion
-              );
-          });
       }
+      const azureSpeech = new AzureSpeech();
+      azureSpeech.getSpeechUrl(language, text)
+        .then(url => {
+          // console.log(url)
+          this._models.at(i)._wavFileHandler.loadWavFile(url);
+          this._models
+            .at(i)
+            .startRandomMotion(
+              LAppDefine.MotionGroupTapBody,
+              LAppDefine.PriorityNormal,
+              this._finishedMotion
+            );
+      });
     }
+
   }
 
   /**
@@ -162,7 +164,7 @@ export class LAppLive2DManager {
       if (model.getModel()) {
         if (model.getModel().getCanvasWidth() > 1.0 && width < height) {
           // 横に長いモデルを縦長ウィンドウに表示する際モデルの横サイズでscaleを算出する
-          model.getModelMatrix().setWidth(2.0);
+          model.getModelMatrix().setWidth(1.5);
           projection.scale(1.0, width / height);
         } else {
           projection.scale(height / width, 1.0);
@@ -204,6 +206,8 @@ export class LAppLive2DManager {
     for (let i = 0; i < 16; i++) {
       this._viewMatrix.getArray()[i] = m.getArray()[i];
     }
+    this._viewMatrix.scale(LAppDefine.ViewScale + 0.3, LAppDefine.ViewScale + 0.3)
+    this._viewMatrix.translateY(-0.3)
   }
 
   /**

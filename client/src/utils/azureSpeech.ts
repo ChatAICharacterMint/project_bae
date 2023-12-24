@@ -16,10 +16,12 @@ export class AzureSpeech {
   async getSpeechUrl(language: string, text: string) {
     if (this._ttsregion === undefined || this._ttsregion === "") return;
 
+    // #TODO: tts api authurization with Bearer access_token - auth flow
     const requestHeaders: HeadersInit = new Headers();
     requestHeaders.set('Content-Type', 'application/ssml+xml');
     requestHeaders.set('X-Microsoft-OutputFormat', 'riff-8khz-16bit-mono-pcm');
     requestHeaders.set('Ocp-Apim-Subscription-Key', this._ttsapikey);
+    requestHeaders.set('User-Agent', 'myaibae')
 
     const voice = LANGUAGE_TO_VOICE_MAPPING_LIST.find(
       c => c.voice.startsWith(language) && c.IsMale === false
@@ -41,9 +43,9 @@ export class AzureSpeech {
         body: ssml
       }
     );
-
+    
     const blob = await response.blob();
-
+    console.log(response)
     const url = window.URL.createObjectURL(blob);
     const audio: any = document.getElementById('voice');
     audio.src = url;

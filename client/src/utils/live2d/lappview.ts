@@ -47,21 +47,21 @@ export class LAppView {
     const ratio: number = width / height;
     const left: number = -ratio;
     const right: number = ratio;
-    const bottom: number = LAppDefine.ViewLogicalLeft;
-    const top: number = LAppDefine.ViewLogicalRight;
-
+    const bottom: number = LAppDefine.ViewLogicalBottom;
+    const top: number = LAppDefine.ViewLogicalTop;
     this._viewMatrix.setScreenRect(left, right, bottom, top); // デバイスに対応する画面の範囲。 Xの左端、Xの右端、Yの下端、Yの上端
     this._viewMatrix.scale(LAppDefine.ViewScale, LAppDefine.ViewScale);
 
     this._deviceToScreen.loadIdentity();
+    const screenW: number = Math.abs(right - left);
+    const screenH: number = Math.abs(top - bottom);
     if (width > height) {
-      const screenW: number = Math.abs(right - left);
       this._deviceToScreen.scaleRelative(screenW / width, -screenW / width);
     } else {
-      const screenH: number = Math.abs(top - bottom);
       this._deviceToScreen.scaleRelative(screenH / height, -screenH / height);
     }
-    this._deviceToScreen.translateRelative(-width * 0.5, -height * 0.5);
+ 
+    this._deviceToScreen.translateRelative(-width * 0.4, -height * 0.4);
 
     // 表示範囲の設定
     this._viewMatrix.setMaxScale(LAppDefine.ViewMaxScale); // 限界拡張率
@@ -187,7 +187,6 @@ export class LAppView {
       // シングルタップ
       const x: number = this._deviceToScreen.transformX(pointX)
       const y: number = this._deviceToScreen.transformY(pointY)
-      
       if (LAppDefine.DebugTouchLogEnable) {
         LAppPal.printMessage(`[APP]touchesEnded x: ${x} y: ${y}`);
       }

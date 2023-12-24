@@ -15,16 +15,28 @@ import SendSVG from '@/assets/images/icon/send.svg';
 import MicSVG from '@/assets/images/icon/mic.svg';
 import MenuSVG from '@/assets/images/icon/menu.svg';
 
-const happyIndex = 2;
 const avatarImgLink = 'https://res.cloudinary.com/dtysxszqe/image/upload/v1702964717/ylt3yueyrhxd1vobi5qc.png';
+
+const emotions = [
+    "very bad", "bad", "normal", "good", "very good"
+];
+const emotionalExp = [
+    -1.8, -1, 0.3, 1, 1.5
+]
+const happyExpRange = [
+    -20, -5, 5, 20
+]
 
 const Character: React.FC = () => {
 
     const socket = Socket.instance;
     const context = useContext(AppContext);
     const [character, setCharacter] = useState<ICharacter | null>(null);
-    const [ caption, setCaption ] = useState(null);
+    const [caption, setCaption] = useState<string | null>(null);
     const messageRef = useRef<HTMLInputElement>(null);
+    const exp = useRef(0);
+    const [happyIndex, setHappyIndex] = useState(2);
+    
 
     const {
         transcript,
@@ -39,14 +51,16 @@ const Character: React.FC = () => {
         talkDid,
         connectDid,
         destoryDid,
-        setDidTalkEndCallback,
         setDidTalkStartCallback,
+        setDidTalkEndCallback,
     } = useDidStream();
 
     const {
         initializeLive2D,
         releaseLive2D,
-        talkLive2D
+        talkLive2D,
+        setLive2DTalkStartCallback,
+        setLive2DTalkEndCallback
     } = useLive2d();
 
     useEffect(() => {
@@ -70,6 +84,9 @@ const Character: React.FC = () => {
                 })
             } else if(character.type === 'live2d') {
                 initializeLive2D();
+                setLive2DTalkEndCallback(() => {
+                    setCaption(null);
+                })
             }
         }
         
@@ -86,14 +103,18 @@ const Character: React.FC = () => {
         socket.on('@response', (res: { message: any; }) => {
             const c = context.config.state.selectedCharacter
             if(res.message && res.message !== '') {
-                console.log(res.message)
+                const reply = analyzeReply(res.message)
+                console.log(reply)
                 if(c.type === 'image') {
                     setDidTalkStartCallback(() => {
-                        setCaption(res.message)
+                        setCaption(reply.message)
                     })
-                    talkDid(res.message);
+                    talkDid(reply.message);
                 } else if(c.type === 'live2d') {
-                    talkLive2D(res.message)
+                    setLive2DTalkStartCallback(() => {
+                        setCaption(reply.message)
+                    })
+                    talkLive2D(reply.message)
                 }
                 
             }
@@ -108,6 +129,32 @@ const Character: React.FC = () => {
             })
         }
     };
+
+    const analyzeReply = (text: string) => {
+        const emotion = text.split('##')[1]
+        const message = text.split('##')[2]
+
+        // #TODO: emotional evolution linear profile or curved profile
+
+        const index = emotions.indexOf(emotion)
+        const diff = index == -1 ? 0 : emotionalExp[index]
+        exp.current += diff;
+
+        for(let i = 0; i < happyExpRange.length; i++)
+            if(exp.current <= happyExpRange[i]) { 
+                setHappyIndex(i); 
+                return {
+                    emotion: emotion,
+                    message: message
+                }
+            }
+
+        setHappyIndex(4)
+        return {
+            emotion: emotion,
+            message: message
+        }
+    }
 
     return (
     <div className="h-full flex flex-col justify-between ml-0 sm:ml-[24px] gap-[2rem]">
