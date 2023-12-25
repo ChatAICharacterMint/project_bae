@@ -35,9 +35,9 @@ const CharacterItem = (props: CharacterItemProps): React.JSX.Element => {
                     <img className='absolute w-[24px] h-[24px] right-[6px] top-[6px] z-[9]' src={checkImg} />
                 }
                 {
-                    isHovered &&
+                    !isHovered &&
                     <div className='absolute top-0 left-0 w-full h-full flex flex-col justify-end bg-[#0009] z-[10] rounded-[1rem]'>
-                        <button className='w-full h-[24px] border-none outline-none text-[#fff] bg-blue-700 rounded-bl-[1rem] rounded-br-[1rem]'
+                        {/* <button className='w-full h-[24px] border-none outline-none text-[#fff] bg-blue-700 rounded-bl-[1rem] rounded-br-[1rem]'
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
@@ -45,7 +45,7 @@ const CharacterItem = (props: CharacterItemProps): React.JSX.Element => {
                             }}
                         >
                             Edit
-                        </button>
+                        </button> */}
                     </div>
                 }
             </div>

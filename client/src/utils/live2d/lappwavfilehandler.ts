@@ -109,8 +109,8 @@ export class LAppWavFileHandler {
 
     // ファイルロード
     const asyncFileLoad = async () => {
-      return fetch(filePath).then(responce => {
-        return responce.arrayBuffer();
+      return fetch(filePath).then(response => {
+        return response.arrayBuffer();
       });
     };
 

@@ -123,7 +123,7 @@ export class LAppLive2DManager {
 
   }
 
-  public startVoiceConversation(language: string, text: string) {
+  public startVoiceConversation(language: string, text: string, emotion: string) {
 
     for (let i = 0; i < this._models.getSize(); i++) {
       if (LAppDefine.DebugLogEnable) {
@@ -134,18 +134,17 @@ export class LAppLive2DManager {
       const azureSpeech = new AzureSpeech();
       azureSpeech.getSpeechUrl(language, text)
         .then(url => {
-          // console.log(url)
+          
           this._models.at(i)._wavFileHandler.loadWavFile(url);
-          this._models
-            .at(i)
+          this._models.at(i)._wavFileHandler.start(url)
+          this._models.at(i)
             .startRandomMotion(
-              LAppDefine.MotionGroupTapBody,
+              LAppDefine.getMotionGroup(emotion),
               LAppDefine.PriorityNormal,
               this._finishedMotion
             );
       });
     }
-
   }
 
   /**

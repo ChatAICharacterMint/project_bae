@@ -5,7 +5,7 @@ const characters = [
         type: 'live2d',
         name: 'Hiyori',
         model: 'Hiyori',
-        thumbnail: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1703057256/jpiddb6qlfs5bxwpqn6b.png',
+        thumbnail: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1703411789/cevzmjue98lmx8zpstop.png',
         voice: 'en-US-JennyNeural',
         style: 'Cheerful',
         background: "I spent my early days growing up in New York. I had a blast bonding with my fellows. During my time there, I learned about the importance of taking care of others and making everyone around me happy. ",
@@ -69,7 +69,7 @@ export class ConfigManager {
     constructor() {
         this.state = {
             characters: characters,
-            selectedCharacter: characters[0],
+            selectedCharacter: characters[1],
             showCaption: true,
         };
 

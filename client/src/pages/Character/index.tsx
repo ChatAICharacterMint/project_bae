@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-// import useTextToSpeech from "utils/textToSpeech";
+// import useTextToSpeech from "@/utils/textToSpeech";
 import useDidStream from "@/utils/streaming_did";
 import useLive2d from '@/utils/live2d';
 import Socket from '@/utils/socket';
@@ -37,7 +37,6 @@ const Character: React.FC = () => {
     const exp = useRef(0);
     const [happyIndex, setHappyIndex] = useState(2);
     
-
     const {
         transcript,
         listening,
@@ -114,7 +113,7 @@ const Character: React.FC = () => {
                     setLive2DTalkStartCallback(() => {
                         setCaption(reply.message)
                     })
-                    talkLive2D(reply.message)
+                    talkLive2D(reply.message, reply.emotion)
                 }
                 
             }
@@ -184,7 +183,6 @@ const Character: React.FC = () => {
                     character && character.type === 'live2d' &&
                     <div id="live2d-container" className='absolute top-0 left-0 h-full w-full object-cover object-top'>
                         <canvas id="live2d" className='w-full h-full rounded-[20px]'></canvas>
-                        <audio id='voice' className='hidden' />
                     </div>
                 }
                 
@@ -250,6 +248,7 @@ const Character: React.FC = () => {
                 >
                     <SendSVG />
                 </button>
+                <audio id='voice' className='hidden' />
             </div>
         </div>
     </div>

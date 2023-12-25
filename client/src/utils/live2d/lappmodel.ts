@@ -523,7 +523,7 @@ export class LAppModel extends CubismUserModel {
       value = this._wavFileHandler.getRms();
 
       for (let i = 0; i < this._lipSyncIds.getSize(); ++i) {
-        this._model.addParameterValueById(this._lipSyncIds.at(i), value, 0.8);
+        this._model.addParameterValueById(this._lipSyncIds.at(i), value, 3);
       }
     }
 
@@ -532,11 +532,13 @@ export class LAppModel extends CubismUserModel {
       this._pose.updateParameters(this._model, deltaTimeSeconds);
     }
 
-    // const audio: any = document.getElementById('voice');
-    // if (audio.src !== this._audioSrc) {
-    //   this._audioSrc = audio.src;
-    //   audio.play();
-    // }
+    const audio: any = document.getElementById('voice');
+    if( audio && audio.src && audio.src !== this._audioSrc) {
+      this._audioSrc = audio.src;
+      audio.play();
+      
+    }
+    
     this._model.update();
 
   }

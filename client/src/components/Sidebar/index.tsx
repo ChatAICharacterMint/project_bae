@@ -33,7 +33,7 @@ const Sidebar = () => {
                             <UserSVG />
                             <span>Automise</span>
                         </NavLink>
-                        <NavLink to="#" className="navbar-item flex gap-[1rem]">
+                        {/* <NavLink to="#" className="navbar-item flex gap-[1rem]">
                             <QuestSVG />
                             <span>Quest</span>
                         </NavLink>
@@ -52,16 +52,16 @@ const Sidebar = () => {
                         <NavLink to="#" className="navbar-item flex gap-[1rem]">
                             <HandShakeSVG />
                             <span>Partnership</span>
-                        </NavLink>
+                        </NavLink> */}
                         <NavLink to="/settings" className="navbar-item flex gap-[1rem]">
                             <CogSVG />
                             <span>Settings</span>
                         </NavLink>
                     </div>
-                    <button className="flex pb-[48px] gap-4">
+                    {/* <button className="flex pb-[48px] gap-4">
                         <LogoutSVG />
                         <span>Logout</span>
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </div>

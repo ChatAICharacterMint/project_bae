@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import { getWaveBlob } from 'webm-to-wav-converter';
-import { LANGUAGE_TO_VOICE_MAPPING_LIST } from './languagetovoicemapping';
+import { LANGUAGE_TO_VOICE_MAPPING_LIST } from './azureVoices';
 import config from '@/config';
 
 export class AzureSpeech {
@@ -45,7 +45,6 @@ export class AzureSpeech {
     );
     
     const blob = await response.blob();
-    console.log(response)
     const url = window.URL.createObjectURL(blob);
     const audio: any = document.getElementById('voice');
     audio.src = url;

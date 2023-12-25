@@ -8,7 +8,7 @@ import {
   DEFAULT_AVATAR_VOICE,
   WAVE_NET_VOICES,
   STANDARD_VOICES
-} from "./voices";
+} from "./googleVoices";
 
 import { IVoice, IAvatarVoice } from "@/utils/types";
 
@@ -214,8 +214,6 @@ const useTextToSpeech = () => {
   const convert = async (text: string) => {
 
     const voice = getDefaultAvatarVoice();
-    console.log(voice);
-    // console.log(text);
 
     if (!text || (!voice?.cloudTtsVoice && !voice?.winslow)) {
       return;

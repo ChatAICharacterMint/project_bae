@@ -251,8 +251,8 @@ export class LAppDelegate {
     return this._textureManager;
   }
 
-  public startVoiceConversation(language: string, text: string) {
-    LAppLive2DManager.getInstance().startVoiceConversation(language, text);
+  public startVoiceConversation(language: string, text: string, emotion: string) {
+    LAppLive2DManager.getInstance().startVoiceConversation(language, text, emotion);
   }
 
   /**

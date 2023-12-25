@@ -27,6 +27,15 @@ const useLive2D = () => {
         if (LAppDelegate.getInstance().initialize() == false) {
             return false;
         }
+        const audio = document.getElementById("voice");
+        if(!audio) return false;
+
+        audio.addEventListener("play", function() {
+            OnTalkStart.current();
+        });
+        audio.addEventListener("ended", function() {
+            OnTalkEnd.current();
+        });
         
         LAppDelegate.getInstance().run();
         return true;
@@ -34,10 +43,20 @@ const useLive2D = () => {
 
     const releaseLive2D = () => {
         LAppDelegate.releaseInstance();
+        const audio = document.getElementById("voice");
+        if(!audio) return;
+        audio.removeEventListener("play", function() {
+            OnTalkStart.current();
+        });
+        audio.removeEventListener("ended", function() {
+            OnTalkEnd.current();
+        });
+
     }
 
-    const talkLive2D = (text: string, language?: string) => {
-        LAppDelegate.getInstance().startVoiceConversation(language ? language : "en-US", text)
+    const talkLive2D = (text: string, emotion: string, language?: string) => {
+        LAppDelegate.getInstance().startVoiceConversation(language ? language : "en-US", text, emotion)
+        
     }
 
     const setLive2DTalkStartCallback = (callback: any) => {
