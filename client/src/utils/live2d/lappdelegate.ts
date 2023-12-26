@@ -55,12 +55,13 @@ export class LAppDelegate {
   public initialize(): boolean {
     // キャンバスの作成
     canvas = document.getElementById('live2d');
-    if (LAppDefine.CanvasSize === 'auto') {
-      this._resizeCanvas();
-    } else {
-      canvas.width = LAppDefine.CanvasSize.width;
-      canvas.height = LAppDefine.CanvasSize.height;
-    }
+    this._resizeCanvas();
+    // if (LAppDefine.CanvasSize === 'auto') {
+    //   this._resizeCanvas();
+    // } else {
+    //   canvas.width = LAppDefine.CanvasSize.width;
+    //   canvas.height = LAppDefine.CanvasSize.height;
+    // }
 
     // glコンテキストを初期化
     // @ts-ignore

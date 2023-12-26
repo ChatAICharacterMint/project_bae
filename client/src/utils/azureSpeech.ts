@@ -47,6 +47,7 @@ export class AzureSpeech {
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
     const audio: any = document.getElementById('voice');
+    audio.currentTime = 0;
     audio.src = url;
 
     return url;

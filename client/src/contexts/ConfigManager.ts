@@ -69,7 +69,7 @@ export class ConfigManager {
     constructor() {
         this.state = {
             characters: characters,
-            selectedCharacter: characters[1],
+            selectedCharacter: characters[0],
             showCaption: true,
         };
 

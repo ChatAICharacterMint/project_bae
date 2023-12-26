@@ -268,7 +268,6 @@ const useDidStream = () => {
   function setVideoElement(stream: any) {
     if(!talkVideo.current) return;
     if (!stream) return;
-    console.log('playing stream')
     talkVideo.current.srcObject = stream;
     talkVideo.current.loop = false;
     talkVideo.current.muted = false;
@@ -300,7 +299,6 @@ const useDidStream = () => {
   function stopAllStreams() {
     if(!talkVideo.current) return;
     if (talkVideo.current.srcObject) {
-      console.log('stopping video streams');
       // @ts-ignore
       talkVideo.current.srcObject.getTracks().forEach((track: any) => track.stop());
       talkVideo.current.srcObject = null;

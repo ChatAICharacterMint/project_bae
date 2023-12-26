@@ -6,7 +6,6 @@ import useDidStream from "@/utils/streaming_did";
 import useLive2d from '@/utils/live2d';
 import Socket from '@/utils/socket';
 import { AppContext } from '@/contexts';
-import { ICharacter } from "@/utils/types";
 
 import HappyIndex from '@/components/HappyIndex';
 import LocationSVG from '@/assets/images/icon/location.svg';
@@ -21,17 +20,17 @@ const emotions = [
     "very bad", "bad", "normal", "good", "very good"
 ];
 const emotionalExp = [
-    -1.8, -1, 0.3, 1, 1.5
+    -2, -1.5, 0.3, 1, 1.5
 ]
 const happyExpRange = [
     -20, -5, 5, 20
 ]
 
+// const socket = Socket.instance;
+
 const Character: React.FC = () => {
 
-    const socket = Socket.instance;
     const context = useContext(AppContext);
-    const [character, setCharacter] = useState<ICharacter | null>(null);
     const [caption, setCaption] = useState<string | null>(null);
     const messageRef = useRef<HTMLInputElement>(null);
     const exp = useRef(0);
@@ -70,36 +69,22 @@ const Character: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        setCharacter(context.config.state.selectedCharacter)
-    }, [context.config.state.selectedCharacter])
-
-    useEffect(() => {
-        
-        if(character) {
-            if(character.type === 'image') {
-                connectDid();
-                setDidTalkEndCallback(() => {
-                    setCaption(null);
-                })
-            } else if(character.type === 'live2d') {
-                initializeLive2D();
-                setLive2DTalkEndCallback(() => {
-                    setCaption(null);
-                })
-            }
+        console.log('## initialize...')
+        if(context.config.state.selectedCharacter.type === 'image') {
+            connectDid();
+            setDidTalkEndCallback(() => {
+                setCaption(null);
+            })
+        } else if(context.config.state.selectedCharacter.type === 'live2d') {
+            initializeLive2D();
+            setLive2DTalkEndCallback(() => {
+                setCaption(null);
+            })
         }
-        
-        return () => {
-            destoryDid();
-            releaseLive2D();
-        }
-        
-    }, [character])
 
-    useEffect(() => {
-        socket.emit('init_bot', { message: context.config.state.selectedCharacter })
-        
-        socket.on('@response', (res: { message: any; }) => {
+        Socket.emit('init_bot', { message: context.config.state.selectedCharacter })
+
+        Socket.on('@response', (res: { message: any; }) => {
             const c = context.config.state.selectedCharacter
             if(res.message && res.message !== '') {
                 const reply = analyzeReply(res.message)
@@ -118,20 +103,27 @@ const Character: React.FC = () => {
                 
             }
         });
-    }, [socket])
+
+        return () => {
+            Socket.off('@response');
+            destoryDid();
+            releaseLive2D();
+        }
+
+    }, [context.config.state.selectedCharacter])
 
     const sendTextMessage = (text: string | undefined) => {
-        if(text && socket) {
-            console.log(text)
-            socket.emit('chat', {
+        if(text) {
+            Socket.emit('chat', {
                 message: text
             })
         }
     };
 
     const analyzeReply = (text: string) => {
-        const emotion = text.split('##')[1]
-        const message = text.split('##')[2]
+        const temp = text.split('##')
+        const emotion = temp[1] ? temp[1] : 'normal'
+        const message = temp[2] ? temp[2] : text
 
         // #TODO: emotional evolution linear profile or curved profile
 
@@ -176,11 +168,11 @@ const Character: React.FC = () => {
         <div className="w-full flex-grow flex flex-col gap-[2rem] pl-[2rem] sm:pl-0 pr-[2rem] pb-[2rem]">
             <div className="relative w-full aspect-auto flex-grow flex justify-center items-start overflow-hidden rounded-[20px] border-[1px] border-[#0004] bg-[#000b]">
                 {
-                    character && character.type === 'image' &&
+                    context.config.state.selectedCharacter.type === 'image' &&
                     <video ref={talkVideo} autoPlay muted playsInline className="absolute top-0 left-0 h-full w-full object-cover object-top"></video>
                 }
                 {
-                    character && character.type === 'live2d' &&
+                    context.config.state.selectedCharacter.type === 'live2d' &&
                     <div id="live2d-container" className='absolute top-0 left-0 h-full w-full object-cover object-top'>
                         <canvas id="live2d" className='w-full h-full rounded-[20px]'></canvas>
                     </div>

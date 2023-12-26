@@ -1,4 +1,4 @@
-import { useRef, useContext, useLayoutEffect } from 'react';
+import { useRef, useContext } from 'react';
 import { AppContext } from '@/contexts';
 import { LAppDelegate } from './lappdelegate';
 import * as LAppDefine from './lappdefine';
@@ -9,15 +9,9 @@ const useLive2D = () => {
     const OnTalkStart = useRef(() => {});
     const OnTalkEnd = useRef(() => {});
 
-    useLayoutEffect(() => {
-
-        function updateSize() {
-            LAppDelegate.getInstance().onResize();
-        }
-        window.addEventListener('resize', updateSize);
-
-        return () => window.removeEventListener('resize', updateSize);
-    }, []);
+    function updateSize() {
+        LAppDelegate.getInstance().onResize();
+    }
 
     const initializeLive2D = () => {
         const character = context.config.state.selectedCharacter
@@ -27,6 +21,9 @@ const useLive2D = () => {
         if (LAppDelegate.getInstance().initialize() == false) {
             return false;
         }
+
+        window.addEventListener('resize', updateSize);
+
         const audio = document.getElementById("voice");
         if(!audio) return false;
 
@@ -43,6 +40,7 @@ const useLive2D = () => {
 
     const releaseLive2D = () => {
         LAppDelegate.releaseInstance();
+        window.removeEventListener('resize', updateSize);
         const audio = document.getElementById("voice");
         if(!audio) return;
         audio.removeEventListener("play", function() {

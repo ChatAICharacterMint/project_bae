@@ -136,7 +136,6 @@ export class LAppLive2DManager {
         .then(url => {
           
           this._models.at(i)._wavFileHandler.loadWavFile(url);
-          this._models.at(i)._wavFileHandler.start(url)
           this._models.at(i)
             .startRandomMotion(
               LAppDefine.getMotionGroup(emotion),

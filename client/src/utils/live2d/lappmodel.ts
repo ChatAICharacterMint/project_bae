@@ -536,7 +536,6 @@ export class LAppModel extends CubismUserModel {
     if( audio && audio.src && audio.src !== this._audioSrc) {
       this._audioSrc = audio.src;
       audio.play();
-      
     }
     
     this._model.update();
