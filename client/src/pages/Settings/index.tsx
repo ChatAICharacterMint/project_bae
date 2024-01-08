@@ -1,9 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Switch from "react-switch";
 import CharacterItem from '@/components/CharacterItem';
-
 import { AppContext } from '@/contexts';
-// import useDidStream from '@/utils/streaming_did';
+import { LANGUAGE_TO_VOICE_MAPPING_LIST } from '@/utils/azureVoices';
 
 import AddSVG from '@/assets/images/icon/add.svg';
 
@@ -13,13 +12,11 @@ const Settings: React.FC = () => {
   const context = useContext(AppContext);
   const [config, setConfig] = useState(context.config.state);
   const [showCaption, setShowCaption] = useState(context.config.state.showCaption);
+  const [language, setLanguage] = useState(context.config.state.language);
 
+  const [availableLanguages, setAvailableLanguages] = useState<Array<string>>([]);
   const [availabelVoices, setAvailableVoices] = useState<Array<string>>([]);
   const [availableStyles, setAvailableStyles] = useState<Array<string>>([]);
-
-  // const {
-  //   getIdleVideo
-  // } = useDidStream();
 
   const [toast, setToast] = useState<string | null>(null);
   function showToast(text: string, timeout = 1000) {
@@ -30,41 +27,30 @@ const Settings: React.FC = () => {
     }, timeout);
   }
   useEffect(() => {
-    setAvailableVoices([
-      "en-US-JennyNeural",
-      "zh-CN-YunxiNeural"
-    ]);
-    setAvailableStyles([
-      "Cheerful"
-    ])
+    const languages: Array<string> = [];
+    const voices: Array<string> = [];
+    const styles: Array<string> = [
+      'Cheerful'
+    ];
+    LANGUAGE_TO_VOICE_MAPPING_LIST.map( item => {
+      const lang = `${item.voice.split('-')[0]}-${item.voice.split('-')[1]}`;
+      const voice = `${item.voice.split('-')[2].replace('Neural', '')} ${item.IsMale ? '(Male)' : '(Female)'} ${item.voice.split('-')[0]}-${item.voice.split('-')[1]}`;
+      if(!languages.includes(lang)) languages.push(lang);
+      voices.push(voice)
+    })
+    setAvailableLanguages(languages)
+    setAvailableVoices(voices);
+    setAvailableStyles(styles);
   }, [])
-
-  // const handleCreateNewCharacter = async () => {
-  //   const new_character = {
-  //     name: 'maya',
-  //     image: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1701071571/Bae/kjs9lmgosy5baft5gghf.png',
-  //     idleAnimation: '', 
-  //     voice: 'en-US-JennyNeural',
-  //     style: 'Cheerful',
-  //     happyIndex: 2,
-  //     background: "I spent my early days growing up in New York. I had a blast bonding with my fellows. During my time there, I learned about the importance of taking care of others and making everyone around me happy. ",
-  //   }
-  //   // TODO: check character properties
-  //   await getIdleVideo(new_character, (url: any) => {
-  //     console.log('in settings: ', url)
-  //     new_character.idleAnimation = url
-  //     // TODO: save new character
-  //   })
-  // }
 
   const handleSaveButtonClick = () => {
     const characters = context.config.state.characters.map( item => {
       if(item.name == context.config.state.selectedCharacter.name)
         return {
-          ...item, 
+          ...item,
           voice: config.selectedCharacter.voice,
           style: config.selectedCharacter.style,
-          background: config.selectedCharacter.background
+          bio: config.selectedCharacter.bio
         }
       else return item
     })
@@ -81,9 +67,6 @@ const Settings: React.FC = () => {
   };
 
   const handleCancelButtonClick = () => {
-    // setCharacters(context.config.state.characters);
-    // setSelectedCharacter(context.config.state.selectedCharacter);
-    // setShowCaption(context.config.state.showCaption);
     setConfig(config)
     return;
   };
@@ -93,7 +76,29 @@ const Settings: React.FC = () => {
       <div className='w-full h-[100vh] flex flex-col p-[2rem] gap-[1rem] overflow-y-auto'>
 
         {/* Global settings */}
-        <div className='w-full'>
+        <div className='w-full flex justify-between gap-[1rem]'>
+          <div className='flex items-center gap-[1rem]'>
+            <span className='text-[#fff]'>Language:</span>
+            <select
+              className='outline-none border-none rounded-[4px]'
+              name='language'
+              value={language}
+              onChange={ (evt) => {
+                setLanguage(evt.target.value);
+                context.config.setConfig({
+                  ...context.config.state,
+                  language: evt.target.value
+                });
+              }}
+            >
+              {
+                availableLanguages.map( (item, idx) => 
+                  <option key={idx} value={item}>{item}</option>
+                )
+              }
+            </select>
+          </div>
+
           <div className='flex items-center gap-[1rem]'>
             <span className='text-[#fff]'>Caption:</span>
             <Switch checked={showCaption}
@@ -183,8 +188,8 @@ const Settings: React.FC = () => {
             </div>
           </div>
           <div className='w-full max-w-[650px]'>
-            <span className='text-[#fff]'>Background:</span>
-            <textarea className='w-full h-[160px] flex-grow p-[1rem] resize-none outline-none border-none bg-[#000] text-[#fff] rounded-[10px]' placeholder="Character's background" value={config.selectedCharacter.background}
+            <span className='text-[#fff]'>Bio:</span>
+            <textarea className='w-full h-[160px] flex-grow p-[1rem] resize-none outline-none border-none bg-[#000] text-[#fff] rounded-[10px]' placeholder="Character's background" value={config.selectedCharacter.bio}
               onChange={(event) => {
                 const text = event.target.value;
                 const wordPattern = /\b\w+\b/g;
@@ -197,7 +202,7 @@ const Settings: React.FC = () => {
                     ...config,
                     selectedCharacter: {
                       ...config.selectedCharacter,
-                      background: truncatedText
+                      bio: truncatedText
                     }
                   })
                 } else {
@@ -205,7 +210,7 @@ const Settings: React.FC = () => {
                     ...config,
                     selectedCharacter: {
                       ...config.selectedCharacter,
-                      background: text
+                      bio: text
                     }
                   })
                 }

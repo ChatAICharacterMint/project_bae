@@ -98,7 +98,7 @@ const Character: React.FC = () => {
                     setLive2DTalkStartCallback(() => {
                         setCaption(reply.message)
                     })
-                    talkLive2D(reply.message, reply.emotion)
+                    talkLive2D(reply.message, reply.emotion, c.voice)
                 }
                 
             }

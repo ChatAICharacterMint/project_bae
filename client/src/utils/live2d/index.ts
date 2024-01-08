@@ -15,7 +15,7 @@ const useLive2D = () => {
 
     const initializeLive2D = () => {
         const character = context.config.state.selectedCharacter
-        LAppDefine.lappdefineSet.setBackImage(character.config.back_img);
+        LAppDefine.lappdefineSet.setBackImage(context.config.state.background);
         LAppDefine.lappdefineSet.setModel(character.model)
         
         if (LAppDelegate.getInstance().initialize() == false) {
@@ -52,8 +52,8 @@ const useLive2D = () => {
 
     }
 
-    const talkLive2D = (text: string, emotion: string, language?: string) => {
-        LAppDelegate.getInstance().startVoiceConversation(language ? language : "en-US", text, emotion)
+    const talkLive2D = (text: string, emotion: string, voice: string) => {
+        LAppDelegate.getInstance().startVoiceConversation(voice, text, emotion)
         
     }
 

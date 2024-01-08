@@ -123,7 +123,7 @@ export class LAppLive2DManager {
 
   }
 
-  public startVoiceConversation(language: string, text: string, emotion: string) {
+  public startVoiceConversation(voice: string, text: string, emotion: string) {
 
     for (let i = 0; i < this._models.getSize(); i++) {
       if (LAppDefine.DebugLogEnable) {
@@ -132,7 +132,7 @@ export class LAppLive2DManager {
         );
       }
       const azureSpeech = new AzureSpeech();
-      azureSpeech.getSpeechUrl(language, text)
+      azureSpeech.getSpeechUrl(voice, text)
         .then(url => {
           
           this._models.at(i)._wavFileHandler.start(url)

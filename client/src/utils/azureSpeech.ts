@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 import { getWaveBlob } from 'webm-to-wav-converter';
-import { LANGUAGE_TO_VOICE_MAPPING_LIST } from './azureVoices';
 import config from '@/config';
 
 export class AzureSpeech {
@@ -13,7 +12,7 @@ export class AzureSpeech {
     this._ttsapikey = config.TTS_API_KEY;
   }
 
-  async getSpeechUrl(language: string, text: string) {
+  async getSpeechUrl(voice: string, text: string) {
     if (this._ttsregion === undefined || this._ttsregion === "") return;
 
     // #TODO: tts api authurization with Bearer access_token - auth flow
@@ -23,13 +22,9 @@ export class AzureSpeech {
     requestHeaders.set('Ocp-Apim-Subscription-Key', this._ttsapikey);
     requestHeaders.set('User-Agent', 'myaibae')
 
-    const voice = LANGUAGE_TO_VOICE_MAPPING_LIST.find(
-      c => c.voice.startsWith(language) && c.IsMale === false
-    ).voice;
-
     const ssml = `
-      <speak version=\'1.0\' xml:lang=\'${language}\'>
-        <voice xml:lang=\'${language}\' xml:gender=\'Female\' name=\'${voice}\'>
+      <speak version=\'1.0\' xml:lang=\'${voice.split(' ')[2]}\'>
+        <voice xml:lang=\'${voice.split(' ')[2]}\' xml:gender=\'${voice.split(' ')[1]}\' name=\'${voice.split(' ')[2]}-${voice.split(' ')[0]}Neural\'>
           ${text}
         </voice>
       </speak>
