@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-// import useTextToSpeech from "@/utils/textToSpeech";
 import useDidStream from "@/utils/streaming_did";
 import useLive2d from '@/utils/live2d';
 import Socket from '@/utils/socket';
@@ -26,7 +25,6 @@ const happyExpRange = [
     -20, -5, 5, 20
 ]
 
-// const socket = Socket.instance;
 
 const Character: React.FC = () => {
 
@@ -43,7 +41,6 @@ const Character: React.FC = () => {
         browserSupportsSpeechRecognition,
     } = useSpeechRecognition();
 
-    // const { convert, setOnProcessCallback } = useTextToSpeech();
     const { 
         talkVideo,
         talkDid,
@@ -207,7 +204,7 @@ const Character: React.FC = () => {
                 {
                     <button className={`p-[10px] rounded-full ${listening && 'bg-[#0e0e0e]'}`}
                         onTouchStart={() => {
-                            SpeechRecognition.startListening({ continuous: true, language: 'en-US' });
+                            SpeechRecognition.startListening({ continuous: true, language: context.config.state.language });
                         }}
                         onTouchEnd={() => {
                             SpeechRecognition.stopListening();
@@ -217,7 +214,7 @@ const Character: React.FC = () => {
                             sendTextMessage(transcript);
                         }}
                         onMouseDown={() => {
-                            SpeechRecognition.startListening({ continuous: true, language: 'en-US' });
+                            SpeechRecognition.startListening({ continuous: true, language: context.config.state.language });
                         }}
                         onMouseUp={() => {
                             SpeechRecognition.stopListening();

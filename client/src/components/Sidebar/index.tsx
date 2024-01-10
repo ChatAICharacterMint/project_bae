@@ -10,10 +10,16 @@ import HandShakeSVG from '@/assets/images/icon/handshake.svg';
 import CogSVG from '@/assets/images/icon/cog.svg';
 import LogoutSVG from '@/assets/images/icon/logout.svg';
 
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+
 const avatarImgLink = 'https://res.cloudinary.com/dtysxszqe/image/upload/v1702964717/ylt3yueyrhxd1vobi5qc.png';
 
 const Sidebar = () => {
 
+    // const { connection } = useConnection();
+    // const { publicKey, sendTransaction } = useWallet();
+    
     return (
     <div className="hidden sm:block flex-shrink-0 sidebar w-[240px] h-screen p-[36px] bg-[#000] text-[#fff] text-[16px] leading-normal">
         <div className='h-full flex flex-col items-center px-[2px]'>
@@ -21,6 +27,7 @@ const Sidebar = () => {
                 <NavLink to="#">
                     <img className="rounded-[10px]" src={avatarImgLink} alt='avatar' />
                 </NavLink>
+                {/* <WalletMultiButton /> */}
                 <NavLink to="#">
                     <button className="flex rounded-[10px] bg-[#E23D3D] px-[25px] py-[12px] gap-[16px]">
                         <PlusSquareSVG />

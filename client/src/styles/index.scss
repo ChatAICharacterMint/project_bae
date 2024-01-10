@@ -43,20 +43,24 @@ html {
 	line-height: 1.15;
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
-
-	&::-webkit-scrollbar-thumb {
-		border-radius: 50px;
-		box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-	}
-	&::-webkit-scrollbar-track {
-		background-color: transparent;
-	}
-	&::-webkit-scrollbar-thumb {
-		border-radius: 50px;
-		box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-	}
 }
 
 body {
 	font-family: 'Satoshi', sans-serif;
+}
+
+.settings {
+	textarea {
+		&::-webkit-scrollbar {
+			border-radius: 2em;
+		}
+		&::-webkit-scrollbar-track {
+			border-radius: 2em;
+			background-color: transparent;
+		}
+		&::-webkit-scrollbar-thumb {
+			border-radius: 2em;
+			box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.2);
+		}
+	}
 }

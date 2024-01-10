@@ -72,7 +72,7 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <div className='relative'>
+    <div className='settings relative'>
       <div className='w-full h-[100vh] flex flex-col p-[2rem] gap-[1rem] overflow-y-auto'>
 
         {/* Global settings */}
