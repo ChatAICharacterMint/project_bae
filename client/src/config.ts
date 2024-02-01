@@ -3,7 +3,7 @@ const DID_API_KEY = process.env.REACT_APP_DID_API_KEY || '';
 const TTS_REGION = process.env.REACT_APP_TTS_REGION || '';
 const TTS_API_KEY = process.env.REACT_APP_TTS_API_KEY || '';
 const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY || '';
-const SERVER = process.env.REACT_APP_SERVER || '';
+const SERVER = process.env.REACT_APP_SERVER || '/';
 
 export default {
     DID_API_KEY,
