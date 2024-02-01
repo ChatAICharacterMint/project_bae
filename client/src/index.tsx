@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime'
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from "./App";
 import Loading from '@/pages/Loading';
@@ -11,8 +11,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <AppContextProvider>
-    <React.Suspense fallback={<Loading />} >
+    <Suspense fallback={<Loading />} >
       <App />
-    </React.Suspense>
+    </Suspense>
   </AppContextProvider>
 );

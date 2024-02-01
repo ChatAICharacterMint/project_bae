@@ -104,7 +104,6 @@ module.exports = {
     new webpack.DefinePlugin(env.stringified),
     new WebpackManifestPlugin(),
     new LodashModuleReplacementPlugin(),
-    // new webpack.optimize.UglifyJsPlugin({}),
   ],
   output: {
     // The build folder.

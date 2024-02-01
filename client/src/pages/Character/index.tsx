@@ -62,11 +62,10 @@ const Character: React.FC = () => {
         if (!browserSupportsSpeechRecognition) {
             console.log("Browser doesn't support speech recognition.")
         }
-        console.log("#################");
     }, []);
 
     useEffect(() => {
-        console.log('## initialize...')
+        console.log('## initialize character...')
         if(context.config.state.selectedCharacter.type === 'image') {
             connectDid();
             setDidTalkEndCallback(() => {
