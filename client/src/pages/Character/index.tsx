@@ -6,7 +6,7 @@ import useLive2d from '@/utils/live2d';
 import Socket from '@/utils/socket';
 import { AppContext } from '@/contexts';
 
-import HappyIndex from '@/components/HappyIndex';
+import HappyExpBar from '@/components/HappyExpBar';
 import LocationSVG from '@/assets/images/icon/location.svg';
 import BadgeSVG from '@/assets/images/icon/badge.svg';
 import SendSVG from '@/assets/images/icon/send.svg';
@@ -19,20 +19,15 @@ const emotions = [
     "very bad", "bad", "normal", "good", "very good"
 ];
 const emotionalExp = [
-    -2, -1.5, 0.3, 1, 1.5
+    -25, -18, 8, 15, 20
 ]
-const happyExpRange = [
-    -20, -5, 5, 20
-]
-
 
 const Character: React.FC = () => {
 
     const context = useContext(AppContext);
     const [caption, setCaption] = useState<string | null>(null);
     const messageRef = useRef<HTMLInputElement>(null);
-    const exp = useRef(0);
-    const [happyIndex, setHappyIndex] = useState(2);
+    const happyExp = useRef(0)
     
     const {
         transcript,
@@ -125,18 +120,7 @@ const Character: React.FC = () => {
 
         const index = emotions.indexOf(emotion)
         const diff = index == -1 ? 0 : emotionalExp[index]
-        exp.current += diff;
-
-        for(let i = 0; i < happyExpRange.length; i++)
-            if(exp.current <= happyExpRange[i]) { 
-                setHappyIndex(i); 
-                return {
-                    emotion: emotion,
-                    message: message
-                }
-            }
-
-        setHappyIndex(4)
+        happyExp.current += diff
         return {
             emotion: emotion,
             message: message
@@ -148,7 +132,7 @@ const Character: React.FC = () => {
         <div className="w-full h-[110px] flex justify-between items-center bg-[#000] text-[#fff] rounded-0 sm:rounded-bl-[20px] px-[25px] py-[21px]">
             <div className="hidden sm:flex flex-col gap-[6px]">
                 <span className="font-bold">Happiness Index</span>
-                <HappyIndex index={happyIndex} />
+                <HappyExpBar exp={happyExp.current} />
             </div>
             <div className="sm:hidden flex items-center gap-[2rem]">
                 <MenuSVG />

@@ -518,7 +518,6 @@ export class LAppModel extends CubismUserModel {
     // リップシンクの設定
     if (this._lipsync) {
       let value = 0.0; // リアルタイムでリップシンクを行う場合、システムから音量を取得して、0~1の範囲で値を入力します。
-
       this._wavFileHandler.update(deltaTimeSeconds);
       value = this._wavFileHandler.getRms();
       for (let i = 0; i < this._lipSyncIds.getSize(); ++i) {
@@ -595,7 +594,7 @@ export class LAppModel extends CubismUserModel {
           if (fadeTime >= 0.0) {
             motion.setFadeOutTime(fadeTime);
           }
-
+          console.log(this._eyeBlinkIds, this._lipSyncIds)
           motion.setEffectIds(this._eyeBlinkIds, this._lipSyncIds);
           autoDelete = true; // 終了時にメモリから削除
         });

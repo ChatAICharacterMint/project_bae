@@ -134,14 +134,13 @@ export class LAppLive2DManager {
       const azureSpeech = new AzureSpeech();
       azureSpeech.getSpeechUrl(voice, text)
         .then(url => {
-          
-          this._models.at(i)._wavFileHandler.start(url)
           this._models.at(i)
             .startRandomMotion(
               LAppDefine.getMotionGroup(emotion),
               LAppDefine.PriorityNormal,
               this._finishedMotion
             );
+          this._models.at(i)._wavFileHandler.start(url)
       });
     }
   }

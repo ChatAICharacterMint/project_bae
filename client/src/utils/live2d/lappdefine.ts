@@ -36,20 +36,7 @@ export const ResourcesPath = './Resources/';
 // モデルの後ろにある背景の画像ファイル
 // #TODO: default blank image
 export let BackImage = "";
-export let Model ="Haru";
-
-// モデル定義---------------------------------------------
-// モデルを配置したディレクトリ名の配列
-// ディレクトリ名とmodel3.jsonの名前を一致させておくこと
-// export const ModelDir: string[] = [
-//   'Haru',
-//   'Hiyori',
-//   'Mark',
-//   'Natori',
-//   'Rice',
-//   'Mao'
-// ];
-// export const ModelDirSize: number = ModelDir.length;
+export let Model ="Hiyori";
 
 // 外部定義ファイル（json）と合わせる
 export const MotionGroupIdle = 'Idle'; // アイドリング
