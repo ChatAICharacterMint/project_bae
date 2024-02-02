@@ -52,13 +52,11 @@ app.use((req, res, next) => {
   next();
 });
 
-const auth = require("./routes/authRoute");
-app.use("/api/auth", auth);
-
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "/client/build/index.html"));
 });
 
+const auth = require("./routes/authRoute");
+app.use("/api/auth", auth);
+
 httpserver.listen(PORT, () => console.log(`Server is started at ${PORT} port`));
-
-

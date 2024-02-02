@@ -61,6 +61,14 @@ const Character: React.FC = () => {
 
     useEffect(() => {
         console.log('## initialize character...')
+        const previouseExp = localStorage.getItem(context.config.state.selectedCharacter.name);
+        if(previouseExp) {
+            happyExp.current = JSON.parse(previouseExp)
+        } else {
+            happyExp.current = 0;
+        }
+
+        localStorage.setItem(context.config.state.selectedCharacter.name, JSON.stringify(happyExp.current));
         if(context.config.state.selectedCharacter.type === 'image') {
             connectDid();
             setDidTalkEndCallback(() => {
@@ -99,6 +107,8 @@ const Character: React.FC = () => {
             Socket.off('@response');
             destoryDid();
             releaseLive2D();
+            console.log('close chat ...')
+            localStorage.setItem(context.config.state.selectedCharacter.name, JSON.stringify(happyExp.current));
         }
 
     }, [context.config.state.selectedCharacter])

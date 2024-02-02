@@ -27,8 +27,6 @@ exports.initPrompt = (msg) => {
             assistant: ##very bad##Shut up!
             user: sorry, I love you. \n
             assistant: ##very good##love you too.
-
-
         `
         messages = [];
         messages[0] = {
