@@ -7,11 +7,12 @@ import Socket from '@/utils/socket';
 import { AppContext } from '@/contexts';
 
 import HappyExpBar from '@/components/HappyExpBar';
-import LocationSVG from '@/assets/images/icon/location.svg';
-import BadgeSVG from '@/assets/images/icon/badge.svg';
+// import LocationSVG from '@/assets/images/icon/location.svg';
+// import BadgeSVG from '@/assets/images/icon/badge.svg';
 import SendSVG from '@/assets/images/icon/send.svg';
 import MicSVG from '@/assets/images/icon/mic.svg';
 import MenuSVG from '@/assets/images/icon/menu.svg';
+import CogSVG from '@/assets/images/icon/cog.svg';
 
 const avatarImgLink = 'https://res.cloudinary.com/dtysxszqe/image/upload/v1702964717/ylt3yueyrhxd1vobi5qc.png';
 
@@ -27,7 +28,9 @@ const Character: React.FC = () => {
     const context = useContext(AppContext);
     const [caption, setCaption] = useState<string | null>(null);
     const messageRef = useRef<HTMLInputElement>(null);
-    const happyExp = useRef(0)
+    const exp = useRef(0)
+    const last_at = useRef(0)
+    const [happyExp, setHappyExp] = useState(0)
     
     const {
         transcript,
@@ -57,18 +60,19 @@ const Character: React.FC = () => {
         if (!browserSupportsSpeechRecognition) {
             console.log("Browser doesn't support speech recognition.")
         }
-    }, []);
+    });
 
     useEffect(() => {
-        console.log('## initialize character...')
-        const previouseExp = localStorage.getItem(context.config.state.selectedCharacter.name);
-        if(previouseExp) {
-            happyExp.current = JSON.parse(previouseExp)
+        console.log('## initialize character...', happyExp)
+        const lastChat = localStorage.getItem(context.config.state.selectedCharacter.name);
+        if(lastChat) {
+            exp.current = JSON.parse(lastChat)['exp']
+            last_at.current = JSON.parse(lastChat)['last_at']
+            setHappyExp(exp.current)
         } else {
-            happyExp.current = 0;
+            setHappyExp(0)
         }
 
-        localStorage.setItem(context.config.state.selectedCharacter.name, JSON.stringify(happyExp.current));
         if(context.config.state.selectedCharacter.type === 'image') {
             connectDid();
             setDidTalkEndCallback(() => {
@@ -107,8 +111,6 @@ const Character: React.FC = () => {
             Socket.off('@response');
             destoryDid();
             releaseLive2D();
-            console.log('close chat ...')
-            localStorage.setItem(context.config.state.selectedCharacter.name, JSON.stringify(happyExp.current));
         }
 
     }, [context.config.state.selectedCharacter])
@@ -129,8 +131,14 @@ const Character: React.FC = () => {
         // #TODO: emotional evolution linear profile or curved profile
 
         const index = emotions.indexOf(emotion)
-        const diff = index == -1 ? 0 : emotionalExp[index]
-        happyExp.current += diff
+        exp.current += index == -1 ? 0 : emotionalExp[index]
+        last_at.current = new Date().getTime()
+        localStorage.setItem(context.config.state.selectedCharacter.name, JSON.stringify({
+            'exp': exp.current,
+            'last_at': last_at.current
+        }));
+        setHappyExp(exp.current)
+
         return {
             emotion: emotion,
             message: message
@@ -139,10 +147,9 @@ const Character: React.FC = () => {
 
     return (
     <div className="h-full flex flex-col justify-between ml-0 sm:ml-[24px] gap-[2rem]">
-        <div className="w-full h-[110px] flex justify-between items-center bg-[#000] text-[#fff] rounded-0 sm:rounded-bl-[20px] px-[25px] py-[21px]">
+        <div className="w-full h-[80px] flex justify-between items-center bg-[#000] text-[#fff] rounded-0 sm:rounded-bl-[20px] px-[25px] py-[21px]">
             <div className="hidden sm:flex flex-col gap-[6px]">
-                <span className="font-bold">Happiness Index</span>
-                <HappyExpBar exp={happyExp.current} />
+                <HappyExpBar exp={happyExp} />
             </div>
             <div className="sm:hidden flex items-center gap-[2rem]">
                 <MenuSVG />
@@ -151,8 +158,9 @@ const Character: React.FC = () => {
                 </NavLink>
             </div>
             <div className="flex gap-[40px]">
-                <LocationSVG />
-                <BadgeSVG />
+                {/* <LocationSVG />
+                <BadgeSVG /> */}
+                <CogSVG />
             </div>
         </div>
         <div className="w-full flex-grow flex flex-col gap-[2rem] pl-[2rem] sm:pl-0 pr-[2rem] pb-[2rem]">
@@ -220,7 +228,7 @@ const Character: React.FC = () => {
                         <MicSVG />
                     </button>
                 }
-                <button className="hidden sm:block p-[10px] pl-[9px] bg-[#E23D3D] rounded-[10px]"
+                {/* <button className="hidden sm:block p-[10px] pl-[9px] bg-[#E23D3D] rounded-[10px]"
                     onClick={ () => { 
                         if(messageRef.current) {
                             sendTextMessage(messageRef.current.value);
@@ -229,7 +237,7 @@ const Character: React.FC = () => {
                     }}
                 >
                     <SendSVG />
-                </button>
+                </button> */}
                 <audio id='voice' className='hidden' />
             </div>
         </div>

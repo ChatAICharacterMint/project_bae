@@ -1,11 +1,11 @@
 import React from 'react';
 import Sidebar from '@/components/Sidebar';
 
-export interface MainLayoutProps {
+export interface LayoutProps {
   children: React.ReactNode;
 }
 
-function MainLayout(props : MainLayoutProps) {
+function Layout(props : LayoutProps) {
   return (
     <div className='w-full h-screen flex overflow-hidden'>
       <Sidebar />
@@ -16,4 +16,4 @@ function MainLayout(props : MainLayoutProps) {
   );
 }
 
-export default MainLayout;
+export default Layout;

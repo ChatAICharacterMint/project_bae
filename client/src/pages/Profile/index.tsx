@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Switch from "react-switch";
-import CharacterItem from '@/components/CharacterItem';
+import BaeItem from '@/components/baeItem';
 import { AppContext } from '@/contexts';
 import { LANGUAGE_TO_VOICE_MAPPING_LIST } from '@/utils/azureVoices';
 
 import AddSVG from '@/assets/images/icon/add.svg';
 
-const Settings: React.FC = () => {
+const Profile: React.FC = () => {
   const wordsLimitation = 3000;
 
   const context = useContext(AppContext);
@@ -121,7 +121,7 @@ const Settings: React.FC = () => {
               </div>
               {
                 config.characters.map( (item, idx) => 
-                  <CharacterItem key={idx} character={item} selected={ item.name == config.selectedCharacter.name } 
+                  <BaeItem key={idx} character={item} selected={ item.name == config.selectedCharacter.name } 
                     onClick={() => {
                       setConfig({
                         ...config,
@@ -246,5 +246,5 @@ const Settings: React.FC = () => {
   )
 };
 
-export default Settings;
+export default Profile;
  

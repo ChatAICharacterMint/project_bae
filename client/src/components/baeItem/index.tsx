@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import checkImg from '@/assets/images/check.png';
 import { ICharacter } from '@/utils/types';
 
-interface CharacterItemProps {
+interface BaeItemProps {
     character: ICharacter,
     selected: boolean,
     onClick: () => void
 }
 
-const CharacterItem = (props: CharacterItemProps): React.JSX.Element => {
+const BaeItem = (props: BaeItemProps): React.JSX.Element => {
 
     const [isHovered, setIsHovered] = useState(false);
 
@@ -54,4 +54,4 @@ const CharacterItem = (props: CharacterItemProps): React.JSX.Element => {
     );
 }
 
-export default CharacterItem;
+export default BaeItem;

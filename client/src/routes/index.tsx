@@ -1,9 +1,9 @@
 import React, { Suspense } from "react";
 import { useRoutes } from "react-router-dom";
-import Loading from "@/pages/Loading";
-import NotFoundPage from '@/pages/NotFound';
-import Character from "@/pages/Character";
-import Settings from "@/pages/Settings";
+import Loading from "@/components/Loading";
+import NotFound from '@/pages/NotFound';
+import Chat from "@/pages/Chat";
+import Profile from "@/pages/Profile";
 
 /** Router */
 export function Router() {
@@ -12,22 +12,19 @@ export function Router() {
             path: "/",
             element: 
             <Suspense fallback={<Loading />}>
-                <Character />
+                <Chat />
             </Suspense>,
         },
         {
             path: "/settings",
             element: 
             <Suspense fallback={<Loading />}>
-                <Settings />
+                <Profile />
             </Suspense>,
         },
         {
             path: '*',
-            element: 
-            <Suspense fallback={<Loading />}>
-                <NotFoundPage />
-            </Suspense>,
+            element: <NotFound />
         }
     ]);
 }
