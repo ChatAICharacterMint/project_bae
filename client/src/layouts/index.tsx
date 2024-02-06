@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from '@/components/Sidebar';
 
 export interface LayoutProps {
@@ -6,10 +6,15 @@ export interface LayoutProps {
 }
 
 function Layout(props : LayoutProps) {
+
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+
   return (
     <div className='w-full h-screen flex overflow-hidden'>
-      <Sidebar />
-      <div className='w-full bg-gradient-to-b from-[#1B1B1D] from-0% via-[#1B1B1D] via-80% to-[#000] to-100%'>
+      <Sidebar onCollapsed={() => {
+        setIsSidebarCollapsed(!isSidebarCollapsed)
+      }} />
+      <div className='bg-[#1b1b1d]' style={{ width: isSidebarCollapsed ? 'calc(100% - 60px)' : 'calc(100% - 180px)'}}>
         {props.children}
       </div>
     </div>

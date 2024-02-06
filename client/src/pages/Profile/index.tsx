@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Switch from "react-switch";
-import BaeItem from '@/components/baeItem';
+import CharacterItem from '@/components/CharacterItem';
 import { AppContext } from '@/contexts';
 import { LANGUAGE_TO_VOICE_MAPPING_LIST } from '@/utils/azureVoices';
 
@@ -116,22 +116,19 @@ const Profile: React.FC = () => {
         {/* Character List */}
         <div className='container'>
           <div className='w-full flex flex-wrap gap-[1rem] mt-[1rem]'>
-              <div className='w-[120px] h-[120px] flex justify-center items-center border-[#fff] border-[1px] border-dashed rounded-[1rem] cursor-pointer'>
-                <AddSVG className='w-[80px] h-[80px] fill-[#fff]' />
-              </div>
               {
                 config.characters.map( (item, idx) => 
-                  <BaeItem key={idx} character={item} selected={ item.name == config.selectedCharacter.name } 
-                    onClick={() => {
-                      setConfig({
-                        ...config,
-                        selectedCharacter: item
-                      });
-                      context.config.setConfig({
-                        ...context.config.state,
-                        selectedCharacter: item
-                      });
-                    }} 
+                  <CharacterItem key={idx} character={item} 
+                    // onClick={() => {
+                    //   setConfig({
+                    //     ...config,
+                    //     selectedCharacter: item
+                    //   });
+                    //   context.config.setConfig({
+                    //     ...context.config.state,
+                    //     selectedCharacter: item
+                    //   });
+                    // }} 
                   />
                 )
               }

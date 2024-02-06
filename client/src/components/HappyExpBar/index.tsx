@@ -5,8 +5,6 @@ import HappySVG_2 from '@/assets/images/icon/happy_2.svg';
 import HappySVG_3 from '@/assets/images/icon/happy_3.svg';
 import HappySVG_4 from '@/assets/images/icon/happy_4.svg';
 
-import './happy.scss';
-
 interface HappyExpBarProps {
     exp: number;
 }

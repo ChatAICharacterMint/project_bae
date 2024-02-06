@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { NavLink } from "react-router-dom";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import useDidStream from "@/utils/streaming_did";
 import useLive2d from '@/utils/live2d';
@@ -7,14 +6,8 @@ import Socket from '@/utils/socket';
 import { AppContext } from '@/contexts';
 
 import HappyExpBar from '@/components/HappyExpBar';
-// import LocationSVG from '@/assets/images/icon/location.svg';
-// import BadgeSVG from '@/assets/images/icon/badge.svg';
-import SendSVG from '@/assets/images/icon/send.svg';
 import MicSVG from '@/assets/images/icon/mic.svg';
-import MenuSVG from '@/assets/images/icon/menu.svg';
 import CogSVG from '@/assets/images/icon/cog.svg';
-
-const avatarImgLink = 'https://res.cloudinary.com/dtysxszqe/image/upload/v1702964717/ylt3yueyrhxd1vobi5qc.png';
 
 const emotions = [
     "very bad", "bad", "normal", "good", "very good"
@@ -146,16 +139,10 @@ const Character: React.FC = () => {
     }
 
     return (
-    <div className="h-full flex flex-col justify-between ml-0 sm:ml-[24px] gap-[2rem]">
-        <div className="w-full h-[80px] flex justify-between items-center bg-[#000] text-[#fff] rounded-0 sm:rounded-bl-[20px] px-[25px] py-[21px]">
+    <div className="h-screen flex flex-col justify-between ml-0 sm:ml-[24px] gap-[1rem]">
+        <div className="w-full h-[80px] flex justify-between items-center bg-[#0d0d0d] text-[#fff] rounded-0 sm:rounded-bl-[20px] px-[25px] py-[21px]">
             <div className="hidden sm:flex flex-col gap-[6px]">
                 <HappyExpBar exp={happyExp} />
-            </div>
-            <div className="sm:hidden flex items-center gap-[2rem]">
-                <MenuSVG />
-                <NavLink to="#">
-                    <img className="rounded-[10px] w-[48px] h-[48px]" src={avatarImgLink} alt='avatar' />
-                </NavLink>
             </div>
             <div className="flex gap-[40px]">
                 {/* <LocationSVG />
@@ -163,7 +150,7 @@ const Character: React.FC = () => {
                 <CogSVG />
             </div>
         </div>
-        <div className="w-full flex-grow flex flex-col gap-[2rem] pl-[2rem] sm:pl-0 pr-[2rem] pb-[2rem]">
+        <div className="w-full flex-grow flex flex-col pl-[1rem] sm:pl-0 pr-[1rem]">
             <div className="relative w-full aspect-auto flex-grow flex justify-center items-start overflow-hidden rounded-[20px] border-[1px] border-[#0004] bg-[#000b]">
                 {
                     context.config.state.selectedCharacter.type === 'image' &&
@@ -189,7 +176,7 @@ const Character: React.FC = () => {
                 }
             </div>
             
-            <div className="h-[70px] flex items-center gap-[12px] px-[14px] bg-[#26282F] rounded-[20px]">
+            <div className="h-[70px] flex items-center gap-[12px] px-[14px] my-[1rem] bg-[#26282F] rounded-[20px]">
                 <input ref={messageRef}
                     className="flex-grow h-full pl-[20px] bg-transparent outline-none caret-[#E23D3D] text-[#fff] leading-[24px]"
                     placeholder="Type here"

@@ -9,25 +9,25 @@ import TelegramSVG from '@/assets/images/telegram.svg';
 import DiscordSVG from '@/assets/images/discord.svg';
 import TwitterSVG from '@/assets/images/twitter.svg';
 
-const avatarImgLink = 'https://res.cloudinary.com/dtysxszqe/image/upload/v1702964717/ylt3yueyrhxd1vobi5qc.png';
+const logoURL = 'https://res.cloudinary.com/dtysxszqe/image/upload/v1702964717/ylt3yueyrhxd1vobi5qc.png';
 
-const Sidebar = () => {
+interface SidebarProps {
+    onCollapsed: () => void
+}
+
+const Sidebar = (props: SidebarProps) => {
     const [collapsed, setCollapsed] = useState(false);
 
     return (
-        <div className={`sidebar flex-shrink-0 h-screen ${ collapsed ? 'w-[64px] px-[16px]' : 'w-[180px] px-[32px]'} bg-[#000] text-[#fff] text-[16px] leading-normal transition duration-300 delay-150 ease-in-out`}>
+        <div className={`sidebar flex-shrink-0 h-screen ${ collapsed ? 'w-[64px] px-[16px]' : 'w-[180px] px-[32px]'} bg-[#0d0d0d] text-[#fff] text-[16px] leading-normal transition duration-300 delay-150 ease-in-out`}>
 
             <div className='h-full flex flex-col items-center'>
-                <img className={`${ collapsed ? 'w-[32px] rounded-[4px]' : 'w-[64px] rounded-[10px]'} py-[2rem] cursor-pointer`} src={avatarImgLink} alt='Project BAE'
-                    onClick={() => { setCollapsed(!collapsed) }}
+                <img className={`${ collapsed ? 'w-[32px] rounded-[4px]' : 'w-[64px] rounded-[10px]'} py-[2rem] cursor-pointer`} src={logoURL} alt='Project BAE'
+                    onClick={() => { 
+                        setCollapsed(!collapsed)
+                        props.onCollapsed()
+                    }}
                 />
-
-                {/* <NavLink to="#">
-                    <button className="flex rounded-[10px] bg-[#E23D3D] px-[25px] py-[12px] gap-[16px]">
-                        <PlusSquareSVG />
-                        <span className='font-bold'>Subscribe</span>
-                    </button>
-                </NavLink> */}
 
                 <div className='flex flex-col flex-grow justify-between py-[2rem]'>
                     <div className="navbar flex flex-col gap-[30px]">
