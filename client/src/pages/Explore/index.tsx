@@ -27,14 +27,14 @@ const Explore: React.FC = () => {
             title: 'BAE NFT',
             description: 'Become a premium member to open Beta features by minting BAE NFT.',
             button: 'Mint Now',
-            url: ''
+            url: 'https://www.mycopilotbae.com/mint-bae'
         },
         {
             img: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1706948201/news/c4iawvtqvv3y6fssrqx1.webp',
             title: 'Publish your BAE',
             description: 'Build and publish an awesome BAE to earn.',
             button: 'Publish Now',
-            url: ''
+            url: '/mybae'
         }
     ]
 
@@ -59,7 +59,7 @@ const Explore: React.FC = () => {
                 
             </div>
             
-            <div className="flex flex-col gap-[2rem] overflow-y-auto thin-scroll">
+            <div className="flex flex-col gap-[2rem] pb-[2rem] overflow-y-auto thin-scroll">
                 <NewsCarousel news={projectBae_news} />
                 <div className="flex flex-col px-[4rem] lg:px-[6rem] gap-[2rem]">
                     <CharacterList 

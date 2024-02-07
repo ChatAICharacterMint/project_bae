@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import ExploreSVG from '@/assets/images/icon/explore.svg';
 import UserSVG from '@/assets/images/icon/user.svg';
 import ChatSVG from '@/assets/images/icon/chat.svg';
@@ -16,12 +16,14 @@ interface SidebarProps {
 }
 
 const Sidebar = (props: SidebarProps) => {
+    const location = useLocation();
     const [collapsed, setCollapsed] = useState(false);
 
+    // TODO - disable navigation on page loading for live chat
     return (
-        <div className={`sidebar flex-shrink-0 h-screen ${ collapsed ? 'w-[64px] px-[16px]' : 'w-[180px] px-[32px]'} bg-[#0d0d0d] text-[#fff] text-[16px] leading-normal transition duration-300 delay-150 ease-in-out`}>
+        <div className={`sidebar flex-shrink-0 h-screen ${ collapsed ? 'w-[64px] px-[16px]' : 'w-[180px] px-[32px]'} bg-[#0d0d0d] text-[#fff] text-[16px] leading-normal`}>
 
-            <div className='h-full flex flex-col items-center'>
+            <div className='w-full h-full flex flex-col items-center'>
                 <img className={`${ collapsed ? 'w-[32px] rounded-[4px]' : 'w-[64px] rounded-[10px]'} py-[2rem] cursor-pointer`} src={logoURL} alt='Project BAE'
                     onClick={() => { 
                         setCollapsed(!collapsed)
@@ -30,26 +32,26 @@ const Sidebar = (props: SidebarProps) => {
                 />
 
                 <div className='flex flex-col flex-grow justify-between py-[2rem]'>
-                    <div className="navbar flex flex-col gap-[30px]">
-                        <NavLink to="/explore" className="navbar-item flex gap-[1rem]">
-                            <ExploreSVG />
-                            <div className={`${collapsed && 'hidden'} transition duration-300 delay-150 ease-in-out`}>Explore</div>
+                    <div className="navbar flex flex-col gap-[1rem]">
+                        <NavLink to="/explore" className={`navbar-item flex gap-[1rem] p-3 rounded-[1rem] ${location.pathname == '/explore' && "bg-[#17181c] text-[#5974ff]"}`}>
+                            <ExploreSVG style={{ stroke: location.pathname == '/explore' ? '#5974ff' : '#fff' }}/>
+                            <div className={`${collapsed && 'hidden'}`}>Explore</div>
                         </NavLink>
-                        <NavLink to="/chat" className="navbar-item flex gap-[1rem]">
-                            <ChatSVG />
-                            <div className={`${collapsed && 'hidden'} transition duration-300 delay-150 ease-in-out`}>Chat</div>
+                        <NavLink to="/chat" className={`navbar-item flex gap-[1rem] p-3 rounded-[1rem] ${location.pathname == '/chat' && "bg-[#17181c] text-[#5974ff]"}`}>
+                            <ChatSVG style={{ stroke: location.pathname == '/chat' ? '#5974ff' : '#fff' }}/>
+                            <div className={`${collapsed && 'hidden'}`}>Chat</div>
                         </NavLink>
-                        <NavLink to="/mybae" className="navbar-item flex gap-[1rem]">
-                            <ToolSVG />
-                            <div className={`${collapsed && 'hidden'} transition duration-300 delay-150 ease-in-out`}>MyBae</div>
+                        <NavLink to="/mybae" className={`navbar-item flex gap-[1rem] p-3 rounded-[1rem] ${location.pathname == '/mybae' && "bg-[#17181c] text-[#5974ff]"}`}>
+                            <ToolSVG style={{ stroke: location.pathname == '/mybae' ? '#5974ff' : '#fff' }}/>
+                            <div className={`${collapsed && 'hidden'}`}>MyBae</div>
                         </NavLink>
-                        <NavLink to="/profile" className="navbar-item flex gap-[1rem]">
-                            <UserSVG />
-                            <div className={`${collapsed && 'hidden'} transition duration-300 delay-150 ease-in-out`}>Profile</div>
+                        <NavLink to="/profile" className={`navbar-item flex gap-[1rem] p-3 rounded-[1rem] ${location.pathname == '/profile' && "bg-[#17181c] text-[#5974ff]"}`}>
+                            <UserSVG style={{ stroke: location.pathname == '/profile' ? '#5974ff' : '#fff' }}/>
+                            <div className={`${collapsed && 'hidden'}`}>Profile</div>
                         </NavLink>
                         
                     </div>
-                    <button className="flex gap-4">
+                    <button className="flex justify-center gap-4">
                         <LogoutSVG />
                         <div className={`${collapsed && 'hidden'} transition duration-300 delay-150 ease-in-out`}>Sign Out</div>
                     </button>

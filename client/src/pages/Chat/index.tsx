@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { Popover } from 'react-tiny-popover'
+
+import SettingPopover from "@/components/ChatSettingPopover";
+
 import useDidStream from "@/utils/streaming_did";
 import useLive2d from '@/utils/live2d';
 import Socket from '@/utils/socket';
@@ -25,6 +29,8 @@ const Character: React.FC = () => {
     const last_at = useRef(0)
     const [happyExp, setHappyExp] = useState(0)
     
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+
     const {
         transcript,
         listening,
@@ -145,9 +151,20 @@ const Character: React.FC = () => {
                 <HappyExpBar exp={happyExp} />
             </div>
             <div className="flex gap-[40px]">
-                {/* <LocationSVG />
-                <BadgeSVG /> */}
-                <CogSVG />
+                <Popover
+                    isOpen={isSettingsOpen}
+                    positions={['bottom', 'left']}
+                    padding={10}
+                    reposition={true} 
+                    onClickOutside={() => setIsSettingsOpen(false)}
+                    content={({position, childRect, popoverRect}) =>
+                        <SettingPopover position={position} childRect={childRect} popoverRect={popoverRect} />
+                    }
+                >
+                    <div className="cursor-pointer" onClick={() => setIsSettingsOpen(!isSettingsOpen)}>
+                        <CogSVG />
+                    </div>
+                </Popover>
             </div>
         </div>
         <div className="w-full flex-grow flex flex-col pl-[1rem] sm:pl-0 pr-[1rem]">

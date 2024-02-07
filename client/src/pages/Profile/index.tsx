@@ -4,8 +4,6 @@ import CharacterItem from '@/components/CharacterItem';
 import { AppContext } from '@/contexts';
 import { LANGUAGE_TO_VOICE_MAPPING_LIST } from '@/utils/azureVoices';
 
-import AddSVG from '@/assets/images/icon/add.svg';
-
 const Profile: React.FC = () => {
   const wordsLimitation = 3000;
 
