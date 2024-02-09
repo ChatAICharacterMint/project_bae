@@ -18,13 +18,17 @@ const FeatureCarousel = (props: FeatureCarouselProps): React.JSX.Element => {
                 {
                     props.characters.map( (item, idx) => 
                         <div key={idx} className="flex items-center px-2">
-                            <div className='w-[320px] h-[280px] flex flex-col rounded-[1.5rem] cursor-pointer bg-[#66c69a]'>
-                                <div className='h-[200px] flex flex-col justify-end p-2 rounded-t-[1.5rem]'>
-                                    <span className='text-[#fff] text-[24px] font-medium'>
+                            <div className='w-[320px] h-[280px] flex flex-col rounded-[1.5rem] cursor-pointer' style={{ 
+                                backgroundImage: 'url(https://res.cloudinary.com/dtysxszqe/image/upload/v1703229724/mtsdwadts1yhvzmcr3wv.png)',
+                                backgroundSize: 'cover',
+                                backgroundRepeat: 'no-repeat',
+                            }}>
+                                <div className='h-[200px] flex flex-col justify-end p-2 rounded-t-[1.5rem] '>
+                                    <span className='text-[24px] font-medium'>
                                         Featured
                                     </span>
                                 </div>
-                                <div className='flex items-center justify-between flex-grow px-4 text-[#fff] bg-[#0000004d] rounded-b-[1.5rem]'>
+                                <div className='flex items-center justify-between flex-grow px-4 bg-[#000d] rounded-b-[1.5rem]'>
                                     <div className='flex gap-1'>
                                         <img className='w-[60px] h-[60px] rounded-[1rem]'
                                             src={item.thumbnail} alt='' 
@@ -36,7 +40,7 @@ const FeatureCarousel = (props: FeatureCarouselProps): React.JSX.Element => {
                                         </div>
                                         
                                     </div>
-                                    <button className='rounded-[1rem] bg-[#000b] px-2 py-1'>
+                                    <button className='rounded-[1rem] bg-[#15152d] px-3 py-2'>
                                         Chat
                                     </button>
                                 </div>

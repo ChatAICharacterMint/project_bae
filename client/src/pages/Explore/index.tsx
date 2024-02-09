@@ -9,7 +9,7 @@ import { AppContext } from '@/contexts';
 
 const Explore: React.FC = () => {
     const searchRef = useRef(null)
-    const [searchResult, setSearchResult] = useState([]);
+    // const [searchResult, setSearchResult] = useState([]);
 
     const context = useContext(AppContext);
     const [config, setConfig] = useState(context.config.state);
@@ -20,7 +20,7 @@ const Explore: React.FC = () => {
             title: 'Discord Forum',
             description: 'Jump into the rabbit hole of Prompt.',
             button: 'Join Now',
-            url: ''
+            url: 'https://discord.com/invite/qPbw93b6KK'
         },
         {
             img: 'https://res.cloudinary.com/dtysxszqe/image/upload/v1706948201/news/vi8cwhgsb7mhazzjlua4.webp',
@@ -41,20 +41,20 @@ const Explore: React.FC = () => {
     return (
         <div className="h-screen flex flex-col">
             <div className="flex justify-between items-center h-[90px] px-[4rem] sticky">
-                <h1 className="text-[32px] text-[#fff] font-semibold">
+                <h1 className="text-[32px] font-semibold">
                     Explore BAE
                 </h1>
                 <div className="flex items-center gap-3 border-[2px] border-[#2b2e3b] rounded-[1.5rem] px-[1rem] py-[0.5rem] bg-[#17181c] ">
                     <SearchSVG />
                     <input ref={searchRef}
-                    className="outline-none bg-transparent text-[#fff] leading-[24px] lg:w-[360px]"
-                    placeholder="Search BAE ..."
-                    onKeyUp={ (evt) => {
-                        if(evt.key === 'Enter') {
-                            console.log('search bae ...')
-                        }
-                    }}
-                />
+                        className="outline-none bg-transparent leading-[24px] lg:w-[360px]"
+                        placeholder="Search BAE ..."
+                        onKeyUp={ (evt) => {
+                            if(evt.key === 'Enter') {
+                                console.log('search bae ...')
+                            }
+                        }}
+                    />
                 </div>
                 
             </div>

@@ -203,8 +203,9 @@ export class LAppLive2DManager {
     for (let i = 0; i < 16; i++) {
       this._viewMatrix.getArray()[i] = m.getArray()[i];
     }
-    this._viewMatrix.scale(LAppDefine.ViewScale + 0.3, LAppDefine.ViewScale + 0.3)
-    this._viewMatrix.translateY(-0.3)
+    this._viewMatrix.scale(LAppDefine.ViewScale * LAppDefine.ModelScale, LAppDefine.ViewScale * LAppDefine.ModelScale)
+    this._viewMatrix.translateY(-1 *LAppDefine.ModelTop)
+    this._viewMatrix.translateX(LAppDefine.ModelLeft)
   }
 
   /**

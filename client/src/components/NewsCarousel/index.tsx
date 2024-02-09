@@ -29,10 +29,10 @@ const NewsCarousel = (props: NewsCarouselProps): React.JSX.Element => {
                             backgroundRepeat: 'no-repeat',
                         }}>
                             <div className='flex flex-col gap-2 w-[240px] lg:w-[320px] xl:w-[360px] pt-0 xl:pt-[2rem]'>
-                                <h3 className="text-[#fff] text-left text-[24px] xl:text-[32px] font-semibold">
+                                <h3 className="text-left text-[24px] xl:text-[32px] font-semibold">
                                     { item.title }
                                 </h3>
-                                <p className="text-[#fff] text-left mt-0 xl:mt-[0.2rem]">
+                                <p className="text-left mt-0 xl:mt-[0.2rem]">
                                     { item.description }
                                 </p>
                             </div>

@@ -19,7 +19,7 @@ export default function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />}/>
-          <Route path="/explore" element={
+          <Route path="/explore/*" element={
             <Suspense fallback={<Loading />}>
                 <Explore />
             </Suspense>
@@ -29,12 +29,12 @@ export default function App() {
                 <Chat />
             </Suspense>
           }/>
-          <Route path="/mybae" element={
+          <Route path="/mybae/*" element={
             <Suspense fallback={<Loading />}>
                 <MyBae />
             </Suspense>
           }/>
-          <Route path="/profile" element={
+          <Route path="/profile/*" element={
             <Suspense fallback={<Loading />}>
                 <Profile />
             </Suspense>

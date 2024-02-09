@@ -37,6 +37,9 @@ export const ResourcesPath = './Resources/';
 // #TODO: default blank image
 export let BackImage = "";
 export let Model ="Hiyori";
+export const ModelScale = 2;
+export const ModelLeft = 0;
+export const ModelTop = 0.7;
 
 // 外部定義ファイル（json）と合わせる
 export const MotionGroupIdle = 'Idle'; // アイドリング
@@ -73,6 +76,7 @@ export const DebugTouchLogEnable = false;
 // Frameworkから出力するログのレベル設定
 export const CubismLoggingLevel: LogLevel = LogLevel.LogLevel_Verbose;
 
+// live2d Model config setting; model, backround, motions, position, scale
 export class lappdefineSet {
   public static setBackImage(image: string): void {
     BackImage = image ? image : '';

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from "react-router-dom";
+import SidebarItem from './SidebarItem';
+
 import ExploreSVG from '@/assets/images/icon/explore.svg';
 import UserSVG from '@/assets/images/icon/user.svg';
 import ChatSVG from '@/assets/images/icon/chat.svg';
 import ToolSVG from '@/assets/images/icon/tool.svg';
+import GameSVG from '@/assets/images/icon/gamepad.svg';
 import LogoutSVG from '@/assets/images/icon/logout.svg';
 import TelegramSVG from '@/assets/images/telegram.svg';
 import DiscordSVG from '@/assets/images/discord.svg';
@@ -33,23 +36,36 @@ const Sidebar = (props: SidebarProps) => {
 
                 <div className='flex flex-col flex-grow justify-between py-[2rem]'>
                     <div className="navbar flex flex-col gap-[1rem]">
-                        <NavLink to="/explore" className={`navbar-item flex gap-[1rem] p-3 rounded-[1rem] ${location.pathname == '/explore' && "bg-[#17181c] text-[#5974ff]"}`}>
-                            <ExploreSVG style={{ stroke: location.pathname == '/explore' ? '#5974ff' : '#fff' }}/>
-                            <div className={`${collapsed && 'hidden'}`}>Explore</div>
-                        </NavLink>
-                        <NavLink to="/chat" className={`navbar-item flex gap-[1rem] p-3 rounded-[1rem] ${location.pathname == '/chat' && "bg-[#17181c] text-[#5974ff]"}`}>
-                            <ChatSVG style={{ stroke: location.pathname == '/chat' ? '#5974ff' : '#fff' }}/>
-                            <div className={`${collapsed && 'hidden'}`}>Chat</div>
-                        </NavLink>
-                        <NavLink to="/mybae" className={`navbar-item flex gap-[1rem] p-3 rounded-[1rem] ${location.pathname == '/mybae' && "bg-[#17181c] text-[#5974ff]"}`}>
-                            <ToolSVG style={{ stroke: location.pathname == '/mybae' ? '#5974ff' : '#fff' }}/>
-                            <div className={`${collapsed && 'hidden'}`}>MyBae</div>
-                        </NavLink>
-                        <NavLink to="/profile" className={`navbar-item flex gap-[1rem] p-3 rounded-[1rem] ${location.pathname == '/profile' && "bg-[#17181c] text-[#5974ff]"}`}>
-                            <UserSVG style={{ stroke: location.pathname == '/profile' ? '#5974ff' : '#fff' }}/>
-                            <div className={`${collapsed && 'hidden'}`}>Profile</div>
-                        </NavLink>
-                        
+                        <SidebarItem 
+                            text="Explore" link="/explore"
+                            isCollapsed={collapsed}
+                            isActive={location.pathname.includes('/explore')}
+                            Icon={ExploreSVG}
+                        />
+                        <SidebarItem 
+                            text="Chat" link="/chat"
+                            isCollapsed={collapsed}
+                            isActive={location.pathname.includes('/chat')}
+                            Icon={ChatSVG}
+                        />
+                        <SidebarItem 
+                            text="MyBae" link="/mybae"
+                            isCollapsed={collapsed}
+                            isActive={location.pathname.includes('/mybae')}
+                            Icon={ToolSVG}
+                        />
+                        {/* <SidebarItem 
+                            text="Axie" link="/game"
+                            isCollapsed={collapsed}
+                            isActive={location.pathname.includes('/game')}
+                            Icon={GameSVG}
+                        /> */}
+                        <SidebarItem 
+                            text="Profile" link="/profile"
+                            isCollapsed={collapsed}
+                            isActive={location.pathname.includes('/profile')}
+                            Icon={UserSVG}
+                        />
                     </div>
                     <button className="flex justify-center gap-4">
                         <LogoutSVG />
@@ -59,7 +75,7 @@ const Sidebar = (props: SidebarProps) => {
                 {
                     !collapsed &&
                     <div className='flex gap-[1rem] py-[2rem]'>
-                        <NavLink to="https://discord.gg/e8ZdjNcNWb" className="navbar-item">
+                        <NavLink to="https://discord.com/invite/qPbw93b6KK" className="navbar-item">
                             <DiscordSVG />
                         </NavLink>
                         <NavLink to="https://t.me/mycopilotbae" className="navbar-item">
