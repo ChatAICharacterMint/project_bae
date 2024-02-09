@@ -1,32 +1,29 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "esnext",
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "types": [
-      "@types/node",
-      "@types/react-speech-recognition"
-    ],
+    "jsx": "react",
+    "strict": true,
     "allowJs": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "preserve",
-    "downlevelIteration": true
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "typeRoots": ["config/@types", "node_modules/@types"],
+    "paths": {
+      "@/*": ["src/*"],
+      "@framework/*": ["Framework/src/*"],
+    },
   },
-  "include": [
-    "src"
+  "exclude": [
+    "build",
+    "node_modules",
   ]
 }

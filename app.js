@@ -37,11 +37,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, "client/build")));
-app.use(
-  "/assets/images",
-  express.static(path.join(__dirname, "assets/images"))
-);
+app.use(express.static(path.join(__dirname, "/client/build")));
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -56,13 +52,11 @@ app.use((req, res, next) => {
   next();
 });
 
-const auth = require("./routes/authRoute");
-app.use("/api/auth", auth);
-
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "/client/build/index.html"));
 });
 
-httpserver.listen(PORT, () => console.log(`==========>Started server at ${PORT}`));
+const auth = require("./routes/authRoute");
+app.use("/api/auth", auth);
 
-
+httpserver.listen(PORT, () => console.log(`Server is started at ${PORT} port`));
