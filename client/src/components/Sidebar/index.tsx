@@ -75,9 +75,6 @@ const Sidebar = (props: SidebarProps) => {
                 {
                     !collapsed &&
                     <div className='flex gap-[1rem] py-[2rem]'>
-                        <NavLink to="https://discord.com/invite/qPbw93b6KK" className="navbar-item">
-                            <DiscordSVG />
-                        </NavLink>
                         <NavLink to="https://t.me/mycopilotbae" className="navbar-item">
                             <TelegramSVG />
                         </NavLink>
